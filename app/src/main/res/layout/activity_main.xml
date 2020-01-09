@@ -17,7 +17,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:text="LINE 1\nLINE2\nLINE3\nLINE4\nLINE5\nLINE7\nLINE8\nLINE9\nLINE10"
+        android:text="LINE1\nLINE2\nLINE3\nLINE4\nLINE5\nLINE6\nLINE7\nLINE8\nLINE9\nLINE10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.238"
@@ -36,7 +36,10 @@
         app:layout_constraintHorizontal_bias="0.133"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.188" />
+        app:layout_constraintVertical_bias="0.188"
+        android:onClick="Send"
+
+        />
 
     <Button
         android:id="@+id/butGet"
