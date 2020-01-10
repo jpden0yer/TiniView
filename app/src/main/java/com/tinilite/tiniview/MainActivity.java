@@ -12,8 +12,11 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
+import static android.util.Half.NaN;
+import static java.lang.Integer.parseUnsignedInt;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -224,6 +227,126 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] passedData) {
+        }
+
+    }
+
+    public void Get(View view) {
+
+        String [] params = {            //params
+                server,                 //0
+                "" + port,              //1
+                user,                   //2
+                pass,                   //3
+                fileName                //4
+
+
+        };
+        new GetDataTask().execute(params);
+
+    }
+
+    public class GetDataTask extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String[] doInBackground(String... params) {
+
+            Log.e("FTP-jp0", "begin doInBackground");
+
+
+            String server = params[0];
+            int port =   Integer.parseInt(params[1]);
+            String user = params[2];
+            String pass = params[3];
+            String fileName = params[4];
+            String fileContents = "";
+
+            int bytesRead;
+
+            FTPClient ftpClient = new FTPClient();
+
+
+            try {
+
+                ftpClient.connect(server, port);
+
+                ftpClient.login(user, pass);
+
+
+                ftpClient.enterLocalPassiveMode();
+
+                ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+                InputStream inputStream  = ftpClient.retrieveFileStream(fileName);
+
+
+
+                byte[] bytesIn = new byte[2048];
+
+                while ((bytesRead = inputStream.read(bytesIn)) > 0) {
+
+                    fileContents = fileContents + new String( bytesIn) ;
+                }
+
+            } catch (IOException ex) {
+
+
+
+                Log.e("FTP-jp0","catch block after location " );
+                System.out.println("Error: " + ex.getMessage());
+                ex.printStackTrace();
+
+
+            }
+
+
+
+            return new String[] { fileContents};
+
+        }
+
+        @Override
+        protected void onPostExecute(String[] passedData) {
+            if (passedData == null)  return;
+
+            String fileContents = passedData[0];
+
+            String textdata = "";
+
+            String [] splitData;
+            splitData = fileContents.split("\r\n") ;
+
+            int speed;
+            int i;
+
+            for (i=0; i<lineCount ; i++){
+
+                if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
+                if (! textdata.equals("") ) {
+
+                    textdata = textdata + "\n" ;
+                    lineLength = splitData[i].length();
+                }
+
+
+                textdata = textdata + splitData[i];
+
+
+
+
+            }
+            for (; i<lineCount ; i++)
+            {
+                textdata = textdata + blankline;
+            }
+
+            mTextData.setText(textdata);
+            formatText();
+
         }
 
     }
