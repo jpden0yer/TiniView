@@ -15,10 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static android.util.Half.NaN;
-import static java.lang.Integer.parseUnsignedInt;
-
-
 public class MainActivity extends AppCompatActivity {
 
     /*controls*/
