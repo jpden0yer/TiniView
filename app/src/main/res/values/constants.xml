@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server">107.180.55.10</string>
+    <string name="user">Sign1@tiniliteworld.com</string>
+    <string name="pass">Sign1</string>
+    <string name="fileName">dat/Sign1.data</string>
+    <integer name="port">21</integer>
+
+    <integer name="speed">2</integer>
+    <integer name="lineCount">10</integer>
+    <integer name="lineLength">24</integer>
+
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

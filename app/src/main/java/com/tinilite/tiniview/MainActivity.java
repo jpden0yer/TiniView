@@ -2,6 +2,7 @@ package com.tinilite.tiniview;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,18 +22,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText mTextData;
 
     /*FTP parameters*/
-    private String server = "107.180.55.10";
-    private int port = 21;
-    private String user = "Sign1@tiniliteworld.com";
-    private String pass = "Sign1";
-    private String fileName = "dat/Sign1.data";
+    private String server ;
+    private int port ;
+    private String user ;
+    private String pass ;
+    private String fileName ;
 
 
     /*sign data constants*/
-    private int speed = 2;
-    private int lineCount = 10;
-    private  int lineLength = 24;
+    private int speed ;
+    private int lineCount ;
+    private  int lineLength ;
     private String blankline;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +43,24 @@ public class MainActivity extends AppCompatActivity {
 
         mTextData = findViewById(R.id.etData);
 
+        Resources res = getResources();
+        server = res.getString(R.string.server);
+        port = res.getInteger(R.integer.port);
+        user  = res.getString(R.string.user);
+        pass = res.getString(R.string.pass);
+        fileName = res.getString(R.string.fileName);
+
+         speed  = res.getInteger(R.integer.speed);;
+        lineCount = res.getInteger(R.integer.lineCount);
+        lineLength = res.getInteger(R.integer.lineLength);
+
         blankline = "";
         for (int j = 0; j < lineLength; j++ )
             blankline = blankline + " ";
+
+
+
+
     }
 
    /*send data support functions*/
