@@ -20,18 +20,7 @@ public class MainActivity extends AppCompatActivity {
     /*controls*/
     private EditText mTextData;
 
-    /*FTP parameters*/
-    private String server = "107.180.55.10";
-    private int port = 21;
-    private String user = "Sign1@tiniliteworld.com";
-    private String pass = "Sign1";
-    private String fileName = "dat/Sign1.data";
 
-
-    /*sign data constants*/
-    private int speed = 2;
-    private int lineCount = 10;
-    private  int lineLength = 24;
     private String blankline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mTextData = findViewById(R.id.etData);
 
         blankline = "";
-        for (int j = 0; j < lineLength; j++ )
+        for (int j = 0; j < constants.lineLength; j++ )
             blankline = blankline + " ";
     }
 
@@ -93,21 +82,21 @@ public class MainActivity extends AppCompatActivity {
     void formatText(){
        String mlines = mTextData.getText().toString()  ;
        String [] splitData;
-       String [] fixedsplitdata = new String[lineCount];
+       String [] fixedsplitdata = new String[constants.lineCount];
 
        splitData = mlines.split("\n") ;
 
        for (int j = 0; j < splitData.length; j ++ ){
-           if (splitData [j].length() > lineLength)  {
-               splitData [j] = splitData [j].substring(0, lineLength);
+           if (splitData [j].length() > constants.lineLength)  {
+               splitData [j] = splitData [j].substring(0, constants.lineLength);
            }
-           else if (splitData [j].length() > lineLength) {
-               splitData [j] = padRight (splitData[j], " ", lineLength);
+           else if (splitData [j].length() > constants.lineLength) {
+               splitData [j] = padRight (splitData[j], " ", constants.lineLength);
            }
 
        }
 
-        for (int j = 0; j < lineCount; j ++ )
+        for (int j = 0; j < constants.lineCount; j ++ )
         {
             if (j < splitData.length)
                 fixedsplitdata[j] = splitData[j];
@@ -128,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
         String retval = mTextData.getText().toString().replace("\n", "\r\n") +
                 "\r\n[trick coding version 2.2]\r\n" +
                 "020105010001FF050100" +
-                padLeft(Integer.toHexString(lineCount), "0", 2 ) +
-                padLeft(Integer.toHexString(speed * 10), "0", 2 ) ;
+                padLeft(Integer.toHexString(constants.lineCount), "0", 2 ) +
+                padLeft(Integer.toHexString(constants.speed * 10), "0", 2 ) ;
 
 
         retval = retval.toUpperCase();
@@ -144,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
         String fileContent = generateFileContents();
 
         String [] params = {            //params
-                server,                 //0
-                "" + port,              //1
-                user,                   //2
-                pass,                   //3
-                fileName,               //4
+                constants.server,                 //0
+                "" + constants.port,              //1
+                constants.user,                   //2
+                constants.pass,                   //3
+                constants.fileName,               //4
                 fileContent             //5
 
         };
@@ -230,11 +219,11 @@ public class MainActivity extends AppCompatActivity {
     public void Get(View view) {
 
         String [] params = {            //params
-                server,                 //0
-                "" + port,              //1
-                user,                   //2
-                pass,                   //3
-                fileName                //4
+                constants.server,                 //0
+                "" + constants.port,              //1
+                constants.user,                   //2
+                constants.pass,                   //3
+                constants.fileName                //4
 
 
         };
@@ -319,13 +308,13 @@ public class MainActivity extends AppCompatActivity {
             int speed;
             int i;
 
-            for (i=0; i<lineCount ; i++){
+            for (i=0; i<constants.lineCount ; i++){
 
                 if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
                 if (! textdata.equals("") ) {
 
                     textdata = textdata + "\n" ;
-                    lineLength = splitData[i].length();
+                    constants.lineLength = splitData[i].length();
                 }
 
 
@@ -335,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-            for (; i<lineCount ; i++)
+            for (; i<constants.lineCount ; i++)
             {
                 textdata = textdata + blankline;
             }
