@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
            if (splitData [j].length() > constants.lineLength)  {
                splitData [j] = splitData [j].substring(0, constants.lineLength);
            }
-           else if (splitData [j].length() > constants.lineLength) {
+           else if (splitData [j].length() < constants.lineLength) {
                splitData [j] = padRight (splitData[j], " ", constants.lineLength);
            }
 
@@ -113,15 +113,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String generateFileContents(){
 
-        formatText();
-        String retval = mTextData.getText().toString().replace("\n", "\r\n") +
+        formatText();  //this function call makes lines uppercase and correct length. changes data in textbox
+        String retval = mTextData.getText().toString().replace("\n", "\r\n").toUpperCase() ;/*+
                 "\r\n[trick coding version 2.2]\r\n" +
                 "020105010001FF050100" +
                 padLeft(Integer.toHexString(constants.lineCount), "0", 2 ) +
                 padLeft(Integer.toHexString(constants.speed * 10), "0", 2 ) ;
-
-
-        retval = retval.toUpperCase();
+*/
 
         return retval;
 

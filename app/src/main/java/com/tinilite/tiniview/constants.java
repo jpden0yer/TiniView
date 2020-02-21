@@ -12,5 +12,5 @@ class constants {
     /*sign data constants*/
     public static int speed = 2;
     public static int lineCount = 10;
-    public static int lineLength = 24;
+    public static int lineLength = 20;
 }
