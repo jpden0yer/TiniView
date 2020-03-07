@@ -28,10 +28,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mTextData = findViewById(R.id.etData);
-
-        blankline = "";
+        StringBuilder bld = new StringBuilder();
         for (int j = 0; j < constants.lineLength; j++ )
-            blankline = blankline + " ";
+            bld.append( " " );
+
+        blankline = bld.toString();
     }
 
    /*send data support functions*/
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
        mlines = mlines.toUpperCase();
 
        mTextData.setText(mlines);
-   };
+   }
 
     private String generateFileContents(){
 
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         return retval;
 
-    };
+    }
 
     public void Send(View view) {
 
@@ -306,20 +307,29 @@ public class MainActivity extends AppCompatActivity {
             int speed;
             int i;
 
-            for (i=0; i<constants.lineCount ; i++){
+            for (i=0;
+                 //030720 JP-CF check # lines actually read from file as well as expected #
+                 i < constants.lineCount && i < splitData.length;
+                 i++){
 
+                /*030720 JP-CF this looked for 'junk' at end of old file format
                 if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
+                */
+
+
                 if (! textdata.equals("") ) {
 
                     textdata = textdata + "\n" ;
+
+                    /*030720 JP-CF this changes linelength bassed on filecontents
+                         the way written  uses length of last line
                     constants.lineLength = splitData[i].length();
+
+                     */
                 }
 
 
                 textdata = textdata + splitData[i];
-
-
-
 
             }
             for (; i<constants.lineCount ; i++)
