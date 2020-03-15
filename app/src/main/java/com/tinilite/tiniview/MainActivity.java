@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -15,9 +19,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
+
 public class MainActivity extends AppCompatActivity {
 
     /*controls*/
+
+    private Spinner mSpinSignList;
+
     private EditText mTextData;
 
 
@@ -27,12 +44,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mSpinSignList = (Spinner) findViewById(R.id.spinSignList);
+
+
         mTextData = findViewById(R.id.etData);
         StringBuilder bld = new StringBuilder();
         for (int j = 0; j < constants.lineLength; j++ )
             bld.append( " " );
 
         blankline = bld.toString();
+
+        String [] params = {            //params
+                constants.server,                 //0
+                "" + constants.port,              //1
+                constants.user,                   //2
+                constants.pass,                   //3
+                "junk" //constants.fileName                //4
+
+
+        };
+        new GetSignListTask().execute(params);
+
+
+
     }
 
    /*send data support functions*/
@@ -343,5 +377,113 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+    public class GetSignListTask extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String[] doInBackground(String... params) {
+            /*Log.e("FTP-jp0", "begin doInBackground");
+            String server = params[0];
+            int port =   Integer.parseInt(params[1]);
+            String user = params[2];
+            String pass = params[3];
+            String fileName = params[4];
+            String fileContents = "";
+            int bytesRead;
+            FTPClient ftpClient = new FTPClient();
+            try {
+
+                ftpClient.connect(server, port);
+
+                ftpClient.login(user, pass);
+
+
+                ftpClient.enterLocalPassiveMode();
+
+                ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+                InputStream inputStream  = ftpClient.retrieveFileStream(fileName);
+
+
+
+                byte[] bytesIn = new byte[2048];
+
+                while ((bytesRead = inputStream.read(bytesIn)) > 0) {
+
+                    fileContents = fileContents + new String( bytesIn) ;
+                }
+
+            } catch (IOException ex) {
+                Log.e("FTP-jp0","catch block after location " );
+                System.out.println("Error: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+            return new String[] { fileContents};
+            */
+            return new String[] {"Sign1\r\nSign2"};
+        }
+
+        @Override
+        protected void onPostExecute(String[] passedData) {
+            if (passedData == null)  return;
+            String fileContents = passedData[0];
+            //String textdata = "";
+            String [] SignList;
+            SignList = fileContents.split("\r\n") ;
+
+            //String[] items = new String[] { "Chai Latte", "Green Tea", "Black Tea" };
+            //Object[] itemobj = items;
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getApplicationContext(),
+                      android.R.layout.simple_spinner_item, SignList);
+
+            mSpinSignList.setAdapter(adapter);
+            /*int speed;
+            int i;
+
+            for (i=0;
+                //030720 JP-CF check # lines actually read from file as well as expected #
+                 i < constants.lineCount && i < splitData.length;
+                 i++){
+                */
+
+            /*030720 JP-CF this looked for 'junk' at end of old file format
+                if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
+                */
+            /*
+                if (! textdata.equals("") ) {
+
+                    textdata = textdata + "\n" ;
+
+                    */
+                  /*030720 JP-CF this changes linelength bassed on filecontents
+                         the way written  uses length of last line
+                    constants.lineLength = splitData[i].length();
+
+                     *//*
+                }
+
+
+                textdata = textdata + splitData[i];
+
+            }
+            for (; i<constants.lineCount ; i++)
+            {
+                textdata = textdata + blankline;
+            }
+
+            mTextData.setText(textdata);
+            formatText();
+*/
+        }
+
+    }
+
 
 }
