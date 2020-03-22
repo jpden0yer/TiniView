@@ -60,12 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 constants.user,                   //2
                 constants.pass,                   //3
                 "dat/signlist.txt"                //4
-
-
         };
         new GetSignListTask().execute(params);
-
-
     }
 
    /*send data support functions*/
@@ -218,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void Send(View view) {
 
-
         String fileContent = generateFileContents();
 
         String [] params = {            //params
@@ -231,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
         };
         new SendDataTask().execute(params);
-
     }
 
 
@@ -434,8 +428,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     public class GetSignListTask extends AsyncTask<String, Void, String[]> {
 
         @Override
@@ -481,8 +473,6 @@ public class MainActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
             return new String[] { fileContents};
-
-
         }
 
         @Override
