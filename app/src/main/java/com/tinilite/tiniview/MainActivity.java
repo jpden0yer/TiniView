@@ -59,17 +59,73 @@ public class MainActivity extends AppCompatActivity {
                 "" + constants.port,              //1
                 constants.user,                   //2
                 constants.pass,                   //3
-                "junk" //constants.fileName                //4
+                "dat/signlist.txt"                //4
 
 
         };
         new GetSignListTask().execute(params);
 
 
-
     }
 
    /*send data support functions*/
+
+   protected static String[] splitLines(String p_str){
+       //String[] returnvalue = new String[];
+       int linecnt = 0;
+       int i;
+       for (i = 1; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++){
+           if ( p_str.charAt(i ) == '\n' || p_str.charAt(i ) == '\r' ){
+               linecnt++;
+               while (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n')
+                   i++;
+
+           }
+
+       }
+
+       i--;
+       if ((p_str.charAt(i)  != '\r' &&
+               p_str.charAt(i) != '\n' &&
+               p_str.charAt(i) != '\0') ||
+               (p_str.charAt(i)  == '\0' &&
+                  (p_str.charAt(i - 1)  != '\r' &&
+                   p_str.charAt(i -1 ) != '\n')
+               )
+       )
+           linecnt++;
+
+       String[] returnvalue = new String[linecnt];
+       String this_line = "";
+       int retn_index = 0;
+
+       for ( i = 0; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++) {
+           if (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') {
+               returnvalue[retn_index]  = this_line;
+               retn_index ++;
+               this_line = "";
+               while ( i < p_str.length() && (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') )
+                   i++;
+
+           }
+
+           if (i < p_str.length() )
+               this_line = this_line + p_str.charAt(i );
+
+       }
+       i--;
+       if ((p_str.charAt(i)  != '\r' &&
+               p_str.charAt(i) != '\n'&&
+               p_str.charAt(i) != '\0') ||
+               (p_str.charAt(i)  == '\0' &&
+                       (p_str.charAt(i - 1)  != '\r' &&
+                               p_str.charAt(i -1 ) != '\n')
+               )
+       )
+           returnvalue[linecnt - 1] = this_line;
+       return returnvalue;
+   }
+
    protected static String join( String delim, String [] arr){
 
        String returnValue = "";
@@ -388,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String[] doInBackground(String... params) {
-            /*Log.e("FTP-jp0", "begin doInBackground");
+            Log.e("FTP-jp0", "begin doInBackground");
             String server = params[0];
             int port =   Integer.parseInt(params[1]);
             String user = params[2];
@@ -425,8 +481,8 @@ public class MainActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
             return new String[] { fileContents};
-            */
-            return new String[] {"Sign1\r\nSign2"};
+
+
         }
 
         @Override
@@ -435,8 +491,8 @@ public class MainActivity extends AppCompatActivity {
             String fileContents = passedData[0];
             //String textdata = "";
             String [] SignList;
-            SignList = fileContents.split("\r\n") ;
-
+            //SignList = fileContents.split("\r\n") ;
+            SignList = splitLines( fileContents);
             //String[] items = new String[] { "Chai Latte", "Green Tea", "Black Tea" };
             //Object[] itemobj = items;
 
