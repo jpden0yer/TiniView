@@ -214,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Send(View view) {
 
+        String filename = "dat/" + mSpinSignList.getSelectedItem().toString() + ".dat";
         String fileContent = generateFileContents();
 
         String [] params = {            //params
@@ -221,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 "" + constants.port,              //1
                 constants.user,                   //2
                 constants.pass,                   //3
-                constants.fileName,               //4
+                filename,               //4
                 fileContent             //5
 
         };
@@ -301,14 +302,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void Get(View view) {
 
+        String filename = "dat/" + mSpinSignList.getSelectedItem().toString() + ".dat";
         String [] params = {            //params
                 constants.server,                 //0
                 "" + constants.port,              //1
                 constants.user,                   //2
                 constants.pass,                   //3
-                constants.fileName                //4
-
-
+                filename                //4
         };
         new GetDataTask().execute(params);
 
