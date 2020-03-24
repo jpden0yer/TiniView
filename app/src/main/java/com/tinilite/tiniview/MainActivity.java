@@ -29,14 +29,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import com.tinilite.tiniview.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
 
     /*controls*/
 
-    private Spinner mSpinSignList;
 
-    private EditText mTextData;
-
+    private ActivityMainBinding binding;
 
     private String blankline;
     @Override
@@ -44,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSpinSignList = (Spinner) findViewById(R.id.spinSignList);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
 
-        mTextData = findViewById(R.id.etData);
         StringBuilder bld = new StringBuilder();
         for (int j = 0; j < constants.lineLength; j++ )
             bld.append( " " );
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void formatText(){
-       String mlines = mTextData.getText().toString()  ;
+       String mlines =  binding.etData.getText().toString()  ;
        String [] splitData;
        String [] fixedsplitdata = new String[constants.lineCount];
 
@@ -195,13 +196,13 @@ public class MainActivity extends AppCompatActivity {
        mlines = join( "\n", fixedsplitdata) ;
        mlines = mlines.toUpperCase();
 
-       mTextData.setText(mlines);
+        binding.etData.setText(mlines);
    }
 
     private String generateFileContents(){
 
         formatText();  //this function call makes lines uppercase and correct length. changes data in textbox
-        String retval = mTextData.getText().toString().replace("\n", "\r\n").toUpperCase() ;/*+
+        String retval = binding.etData.getText().toString().replace("\n", "\r\n").toUpperCase() ;/*+
                 "\r\n[trick coding version 2.2]\r\n" +
                 "020105010001FF050100" +
                 padLeft(Integer.toHexString(constants.lineCount), "0", 2 ) +
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Send(View view) {
 
-        String filename = "dat/" + mSpinSignList.getSelectedItem().toString() + ".dat";
+        String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".dat";
         String fileContent = generateFileContents();
 
         String [] params = {            //params
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Get(View view) {
 
-        String filename = "dat/" + mSpinSignList.getSelectedItem().toString() + ".dat";
+        String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".dat";
         String [] params = {            //params
                 constants.server,                 //0
                 "" + constants.port,              //1
@@ -421,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
                 textdata = textdata + blankline;
             }
 
-            mTextData.setText(textdata);
+            binding.etData.setText(textdata);
             formatText();
 
         }
@@ -489,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String> (getApplicationContext(),
                       android.R.layout.simple_spinner_item, SignList);
 
-            mSpinSignList.setAdapter(adapter);
+            binding.spinSignList.setAdapter(adapter);
             /*int speed;
             int i;
 
@@ -524,7 +525,7 @@ public class MainActivity extends AppCompatActivity {
                 textdata = textdata + blankline;
             }
 
-            mTextData.setText(textdata);
+            binding.etData.setText(textdata);
             formatText();
 */
         }
