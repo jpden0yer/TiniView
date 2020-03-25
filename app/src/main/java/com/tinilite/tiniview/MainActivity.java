@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Send(View view) {
 
-        String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".dat";
+        String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String fileContent = generateFileContents();
 
         String [] params = {            //params
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Get(View view) {
 
-        String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".dat";
+        String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String [] params = {            //params
                 constants.server,                 //0
                 "" + constants.port,              //1
