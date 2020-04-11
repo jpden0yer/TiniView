@@ -1,17 +1,19 @@
 package com.tinilite.tiniview;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.tinilite.tiniview.databinding.ActivityMainBinding;
+import com.tinilite.tiniview.databinding.FragmentMainBinding;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -19,38 +21,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+public class FragmentMain extends Fragment {
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
-
-import com.tinilite.tiniview.databinding.ActivityMainBinding;
-
-public class MainActivity extends AppCompatActivity {
-
-    /*controls*/
-
-
-    private ActivityMainBinding binding;
+    private FragmentMainBinding binding;
 
     private String blankline;
+
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View  onCreateView (LayoutInflater inflator, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = FragmentMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        setContentView(view);
+        inflator.inflate(R.layout.fragment_main, container, false);
 
-        //binding.cotainer.addFragment()
 
-/*
         StringBuilder bld = new StringBuilder();
         for (int j = 0; j < constants.lineLength; j++ )
             bld.append( " " );
@@ -64,83 +51,82 @@ public class MainActivity extends AppCompatActivity {
                 constants.pass,                   //3
                 "dat/signlist.txt"                //4
         };
-        new GetSignListTask().execute(params);
-        */
-
+        //new MainActivity.GetSignListTask().execute(params);
+        return view;
     }
 
-/*   *//*send data support functions*//*
-
-   protected static String[] splitLines(String p_str){
-       //String[] returnvalue = new String[];
-       int linecnt = 0;
-       int i;
-       for (i = 1; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++){
-           if ( p_str.charAt(i ) == '\n' || p_str.charAt(i ) == '\r' ){
-               linecnt++;
-               while (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n')
-                   i++;
-
-           }
-
-       }
-
-       i--;
-       if ((p_str.charAt(i)  != '\r' &&
-               p_str.charAt(i) != '\n' &&
-               p_str.charAt(i) != '\0') ||
-               (p_str.charAt(i)  == '\0' &&
-                  (p_str.charAt(i - 1)  != '\r' &&
-                   p_str.charAt(i -1 ) != '\n')
-               )
-       )
-           linecnt++;
-
-       String[] returnvalue = new String[linecnt];
-       String this_line = "";
-       int retn_index = 0;
-
-       for ( i = 0; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++) {
-           if (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') {
-               returnvalue[retn_index]  = this_line;
-               retn_index ++;
-               this_line = "";
-               while ( i < p_str.length() && (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') )
-                   i++;
-
-           }
-
-           if (i < p_str.length() )
-               this_line = this_line + p_str.charAt(i );
-
-       }
-       i--;
-       if ((p_str.charAt(i)  != '\r' &&
-               p_str.charAt(i) != '\n'&&
-               p_str.charAt(i) != '\0') ||
-               (p_str.charAt(i)  == '\0' &&
-                       (p_str.charAt(i - 1)  != '\r' &&
-                               p_str.charAt(i -1 ) != '\n')
-               )
-       )
-           returnvalue[linecnt - 1] = this_line;
-       return returnvalue;
-   }
-
-   protected static String join( String delim, String [] arr){
-
-       String returnValue = "";
-       for (int i = 0; i < arr.length; i ++){
-           returnValue = returnValue + arr[i];
-           if (i < arr.length - 1 ) {
-               returnValue = returnValue + delim;
-           }
-
-       }
 
 
-       return returnValue;
-   }
+    protected static String[] splitLines(String p_str){
+        //String[] returnvalue = new String[];
+        int linecnt = 0;
+        int i;
+        for (i = 1; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++){
+            if ( p_str.charAt(i ) == '\n' || p_str.charAt(i ) == '\r' ){
+                linecnt++;
+                while (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n')
+                    i++;
+
+            }
+
+        }
+
+        i--;
+        if ((p_str.charAt(i)  != '\r' &&
+                p_str.charAt(i) != '\n' &&
+                p_str.charAt(i) != '\0') ||
+                (p_str.charAt(i)  == '\0' &&
+                        (p_str.charAt(i - 1)  != '\r' &&
+                                p_str.charAt(i -1 ) != '\n')
+                )
+        )
+            linecnt++;
+
+        String[] returnvalue = new String[linecnt];
+        String this_line = "";
+        int retn_index = 0;
+
+        for ( i = 0; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++) {
+            if (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') {
+                returnvalue[retn_index]  = this_line;
+                retn_index ++;
+                this_line = "";
+                while ( i < p_str.length() && (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') )
+                    i++;
+
+            }
+
+            if (i < p_str.length() )
+                this_line = this_line + p_str.charAt(i );
+
+        }
+        i--;
+        if ((p_str.charAt(i)  != '\r' &&
+                p_str.charAt(i) != '\n'&&
+                p_str.charAt(i) != '\0') ||
+                (p_str.charAt(i)  == '\0' &&
+                        (p_str.charAt(i - 1)  != '\r' &&
+                                p_str.charAt(i -1 ) != '\n')
+                )
+        )
+            returnvalue[linecnt - 1] = this_line;
+        return returnvalue;
+    }
+
+    protected static String join( String delim, String [] arr){
+
+        String returnValue = "";
+        for (int i = 0; i < arr.length; i ++){
+            returnValue = returnValue + arr[i];
+            if (i < arr.length - 1 ) {
+                returnValue = returnValue + delim;
+            }
+
+        }
+
+
+        return returnValue;
+    }
 
     protected static String padRight(String s, String pad, int n) {
         String returnValue;
@@ -172,21 +158,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void formatText(){
-       String mlines =  binding.etData.getText().toString()  ;
-       String [] splitData;
-       String [] fixedsplitdata = new String[constants.lineCount];
+        String mlines =  binding.etData.getText().toString()  ;
+        String [] splitData;
+        String [] fixedsplitdata = new String[constants.lineCount];
 
-       splitData = mlines.split("\n") ;
+        splitData = mlines.split("\n") ;
 
-       for (int j = 0; j < splitData.length; j ++ ){
-           if (splitData [j].length() > constants.lineLength)  {
-               splitData [j] = splitData [j].substring(0, constants.lineLength);
-           }
-           else if (splitData [j].length() < constants.lineLength) {
-               splitData [j] = padRight (splitData[j], " ", constants.lineLength);
-           }
+        for (int j = 0; j < splitData.length; j ++ ){
+            if (splitData [j].length() > constants.lineLength)  {
+                splitData [j] = splitData [j].substring(0, constants.lineLength);
+            }
+            else if (splitData [j].length() < constants.lineLength) {
+                splitData [j] = padRight (splitData[j], " ", constants.lineLength);
+            }
 
-       }
+        }
 
         for (int j = 0; j < constants.lineCount; j ++ )
         {
@@ -197,21 +183,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-       mlines = join( "\n", fixedsplitdata) ;
-       mlines = mlines.toUpperCase();
+        mlines = join( "\n", fixedsplitdata) ;
+        mlines = mlines.toUpperCase();
 
         binding.etData.setText(mlines);
-   }
+    }
 
     private String generateFileContents(){
 
         formatText();  //this function call makes lines uppercase and correct length. changes data in textbox
-        String retval = binding.etData.getText().toString().replace("\n", "\r\n").toUpperCase() ;*//*+
-                "\r\n[trick coding version 2.2]\r\n" +
-                "020105010001FF050100" +
-                padLeft(Integer.toHexString(constants.lineCount), "0", 2 ) +
-                padLeft(Integer.toHexString(constants.speed * 10), "0", 2 ) ;
-*//*
+        String retval = binding.etData.getText().toString().replace("\n", "\r\n").toUpperCase() ;
 
         return retval;
 
@@ -397,24 +378,24 @@ public class MainActivity extends AppCompatActivity {
             int i;
 
             for (i=0;
-                 //030720 JP-CF check # lines actually read from file as well as expected #
+                //030720 JP-CF check # lines actually read from file as well as expected #
                  i < constants.lineCount && i < splitData.length;
                  i++){
 
-                *//*030720 JP-CF this looked for 'junk' at end of old file format
+                /*030720 JP-CF this looked for 'junk' at end of old file format
                 if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
-                *//*
+                */
 
 
                 if (! textdata.equals("") ) {
 
                     textdata = textdata + "\n" ;
 
-                    *//*030720 JP-CF this changes linelength bassed on filecontents
+                    /*030720 JP-CF this changes linelength bassed on filecontents
                          the way written  uses length of last line
                     constants.lineLength = splitData[i].length();
 
-                     *//*
+                     */
                 }
 
 
@@ -491,50 +472,15 @@ public class MainActivity extends AppCompatActivity {
             //String[] items = new String[] { "Chai Latte", "Green Tea", "Black Tea" };
             //Object[] itemobj = items;
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getApplicationContext(),
-                      android.R.layout.simple_spinner_item, SignList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity(),
+                    android.R.layout.simple_spinner_item, SignList);
 
             binding.spinSignList.setAdapter(adapter);
-            *//*int speed;
-            int i;
 
-            for (i=0;
-                //030720 JP-CF check # lines actually read from file as well as expected #
-                 i < constants.lineCount && i < splitData.length;
-                 i++){
-                *//*
-
-            *//*030720 JP-CF this looked for 'junk' at end of old file format
-                if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
-                *//*
-            *//*
-                if (! textdata.equals("") ) {
-
-                    textdata = textdata + "\n" ;
-
-                    *//*
-                  *//*030720 JP-CF this changes linelength bassed on filecontents
-                         the way written  uses length of last line
-                    constants.lineLength = splitData[i].length();
-
-                     *//**//*
-                }
-
-
-                textdata = textdata + splitData[i];
-
-            }
-            for (; i<constants.lineCount ; i++)
-            {
-                textdata = textdata + blankline;
-            }
-
-            binding.etData.setText(textdata);
-            formatText();
-*//*
         }
 
-    }*/
+    }
+
 
 
 }
