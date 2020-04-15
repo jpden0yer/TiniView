@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 byte[] bytesIn = fileContents.getBytes() ;
                 outputStream.write(bytesIn, 0, fileContents.length());
                 outputStream.close();
-                boolean completed = ftpClient.completePendingCommand();
+                ftpClient.completePendingCommand();
                 Log.d(TAG, "doInBackground: finish try block");
             } catch (IOException ex) {
                 Log.e(TAG, "doInBackground: ERROR catched" );
@@ -250,8 +250,9 @@ public class MainActivity extends AppCompatActivity {
             String user = params[2];
             String pass = params[3];
             String fileName = params[4];
-            String fileContents = "";
-            int bytesRead;
+
+
+            StringBuilder fileContentBld = new StringBuilder();
             FTPClient ftpClient = new FTPClient();
             try {
                 Log.d(TAG, "doInBackground: Starting try block.......");
@@ -261,8 +262,8 @@ public class MainActivity extends AppCompatActivity {
                 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
                 InputStream inputStream  = ftpClient.retrieveFileStream(fileName);
                 byte[] bytesIn = new byte[2048];
-                while ((bytesRead = inputStream.read(bytesIn)) > 0) {
-                    fileContents = fileContents + new String( bytesIn) ;
+                while (( inputStream.read(bytesIn)) > 0) {
+                    fileContentBld.append(new String( bytesIn)) ;
                 }
                 Log.d(TAG, "doInBackground: finish try block");
             } catch (IOException ex) {
@@ -271,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
             Log.d(TAG, "doInBackground: finished");
-            return new String[] { fileContents};
+            return new String[] { fileContentBld.toString() };
         }
 
         @Override
@@ -279,26 +280,26 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onPostExecute: beginning........");
             if (passedData == null)  return;
             String fileContents = passedData[0];
-            String textdata = "";
+            StringBuilder textDataBld = new StringBuilder();
             String [] splitData;
             splitData = fileContents.split("\r\n") ;
-            int speed;
+
             int i;
             for (i=0;
                  //030720 JP-CF check # lines actually read from file as well as expected #
                  i < constants.lineCount && i < splitData.length;
                  i++){
 
-                if (! textdata.equals("") ) {
-                    textdata = textdata + "\n" ;
+                if (! (textDataBld.length() == 0) ) {
+                    textDataBld.append( "\n") ;
                 }
-                textdata = textdata + splitData[i];
+                textDataBld.append(splitData[i]);
             }
             for (; i<constants.lineCount ; i++)
             {
-                textdata = textdata + blankline;
+                textDataBld.append(blankline);
             }
-            binding.etData.setText(textdata);
+            binding.etData.setText(textDataBld.toString());
             formatText();
             Log.d(TAG, "onPostExecute: finished");
         }
@@ -321,8 +322,7 @@ public class MainActivity extends AppCompatActivity {
             String user = params[2];
             String pass = params[3];
             String fileName = params[4];
-            String fileContents = "";
-            int bytesRead;
+            StringBuilder fileContentBld = new StringBuilder();
             FTPClient ftpClient = new FTPClient();
             try {
                 Log.d(TAG, "doInBackground: Starting try block........");
@@ -332,8 +332,8 @@ public class MainActivity extends AppCompatActivity {
                 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
                 InputStream inputStream  = ftpClient.retrieveFileStream(fileName);
                 byte[] bytesIn = new byte[2048];
-                while ((bytesRead = inputStream.read(bytesIn)) > 0) {
-                    fileContents = fileContents + new String( bytesIn) ;
+                while (( inputStream.read(bytesIn)) > 0) {
+                    fileContentBld.append( new String( bytesIn)) ;
                 }
                 Log.d(TAG, "doInBackground: finish try");
             } catch (IOException ex) {
@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
             Log.d(TAG, "doInBackground: finished");
-            return new String[] { fileContents};
+            return new String[] { fileContentBld.toString()};
         }
 
         @Override
