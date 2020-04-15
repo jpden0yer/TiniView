@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
        String[] returnvalue = new String[linecnt];
        StringBuilder this_line_bld = new StringBuilder();
-
        int retn_index = 0;
-
        for ( i = 0; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++) {
            if (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') {
                returnvalue[retn_index]  = this_line_bld.toString();
@@ -98,21 +96,21 @@ public class MainActivity extends AppCompatActivity {
 
    protected static String join( String delim, String [] arr){
        Log.d(TAG, "join: beginning......");
-       String returnValue = "";
+       StringBuilder returnValueBld = new StringBuilder();
        for (int i = 0; i < arr.length; i ++){
-           returnValue = returnValue + arr[i];
+           returnValueBld.append( arr[i]);
            if (i < arr.length - 1 ) {
-               returnValue = returnValue + delim;
+               returnValueBld.append( delim);
            }
        }
        Log.d(TAG, "join: finished");
-       return returnValue;
+       return returnValueBld.toString();
    }
 
     protected static String padRight(String s, String pad, int n) {
         Log.d(TAG, "padRight: beginning........."); 
         String returnValue =  String.format("%-" + n + "s", s);
-        if (pad != " ") {
+        if (! pad.equals(" ")) {
             returnValue = returnValue.replace(" ", pad);
         }
 
@@ -120,21 +118,6 @@ public class MainActivity extends AppCompatActivity {
             returnValue = returnValue.substring(0, n);
         }
         Log.d(TAG, "padRight: finished");
-        return returnValue;
-    }
-
-    protected static String padLeft(String s, String pad, int n) {
-        Log.d(TAG, "padLeft: beginning.........");
-        String returnValue;
-        returnValue =  String.format("%" + n + "s", s);
-        if (pad != " ") {
-            returnValue = returnValue.replace(" ", pad);
-        }
-
-        if (returnValue.length() > n ) {
-            returnValue = returnValue.substring(returnValue.length() - n);
-        }
-        Log.d(TAG, "padLeft: finished");
         return returnValue;
     }
 
