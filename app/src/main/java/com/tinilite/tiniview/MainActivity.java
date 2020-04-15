@@ -1,34 +1,16 @@
 package com.tinilite.tiniview;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
-
 import com.tinilite.tiniview.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,19 +67,20 @@ public class MainActivity extends AppCompatActivity {
         linecnt++;
 
        String[] returnvalue = new String[linecnt];
-       String this_line = "";
+       StringBuilder this_line_bld = new StringBuilder();
+
        int retn_index = 0;
 
        for ( i = 0; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++) {
            if (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') {
-               returnvalue[retn_index]  = this_line;
+               returnvalue[retn_index]  = this_line_bld.toString();
                retn_index ++;
-               this_line = "";
+               this_line_bld = new StringBuilder();
                while ( i < p_str.length() && (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') )
                    i++;
            }
            if (i < p_str.length() )
-               this_line = this_line + p_str.charAt(i );
+               this_line_bld.append( p_str.charAt(i ));
        }
        i--;
        if ((p_str.charAt(i)  != '\r' &&
@@ -108,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                                p_str.charAt(i -1 ) != '\n')
                )
        )
-       returnvalue[linecnt - 1] = this_line;
+       returnvalue[linecnt - 1] = this_line_bld.toString();
        Log.d(TAG, "splitLines: finished");
        return returnvalue;
    }
