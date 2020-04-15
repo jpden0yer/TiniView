@@ -33,28 +33,22 @@ import com.tinilite.tiniview.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     /*controls*/
-
-
     private ActivityMainBinding binding;
-
     private String blankline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: beginning.......");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-
         StringBuilder bld = new StringBuilder();
         for (int j = 0; j < constants.lineLength; j++ )
             bld.append( " " );
-
         blankline = bld.toString();
-
         String [] params = {            //params
                 constants.server,                 //0
                 "" + constants.port,              //1
@@ -63,12 +57,13 @@ public class MainActivity extends AppCompatActivity {
                 "dat/signlist.txt"                //4
         };
         new GetSignListTask().execute(params);
+        Log.d(TAG, "onCreate: finished");
     }
 
    /*send data support functions*/
 
    protected static String[] splitLines(String p_str){
-       //String[] returnvalue = new String[];
+       Log.d(TAG, "splitLines: beginning........");
        int linecnt = 0;
        int i;
        for (i = 1; i < p_str.length() && p_str.charAt(i ) != '\0' ; i++){
@@ -76,11 +71,8 @@ public class MainActivity extends AppCompatActivity {
                linecnt++;
                while (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n')
                    i++;
-
            }
-
        }
-
        i--;
        if ((p_str.charAt(i)  != '\r' &&
                p_str.charAt(i) != '\n' &&
@@ -90,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                    p_str.charAt(i -1 ) != '\n')
                )
        )
-           linecnt++;
+        linecnt++;
 
        String[] returnvalue = new String[linecnt];
        String this_line = "";
@@ -103,12 +95,9 @@ public class MainActivity extends AppCompatActivity {
                this_line = "";
                while ( i < p_str.length() && (p_str.charAt(i ) == '\r' || p_str.charAt(i ) == '\n') )
                    i++;
-
            }
-
            if (i < p_str.length() )
                this_line = this_line + p_str.charAt(i );
-
        }
        i--;
        if ((p_str.charAt(i)  != '\r' &&
@@ -119,30 +108,27 @@ public class MainActivity extends AppCompatActivity {
                                p_str.charAt(i -1 ) != '\n')
                )
        )
-           returnvalue[linecnt - 1] = this_line;
+       returnvalue[linecnt - 1] = this_line;
+       Log.d(TAG, "splitLines: finished");
        return returnvalue;
    }
 
    protected static String join( String delim, String [] arr){
-
+       Log.d(TAG, "join: beginning......");
        String returnValue = "";
        for (int i = 0; i < arr.length; i ++){
            returnValue = returnValue + arr[i];
            if (i < arr.length - 1 ) {
                returnValue = returnValue + delim;
            }
-
        }
-
-
+       Log.d(TAG, "join: finished");
        return returnValue;
    }
 
     protected static String padRight(String s, String pad, int n) {
-        String returnValue;
-
-        returnValue =  String.format("%-" + n + "s", s);
-
+        Log.d(TAG, "padRight: beginning........."); 
+        String returnValue =  String.format("%-" + n + "s", s);
         if (pad != " ") {
             returnValue = returnValue.replace(" ", pad);
         }
@@ -150,13 +136,14 @@ public class MainActivity extends AppCompatActivity {
         if (returnValue.length() > n ) {
             returnValue = returnValue.substring(0, n);
         }
+        Log.d(TAG, "padRight: finished");
         return returnValue;
     }
-    protected static String padLeft(String s, String pad, int n) {
 
+    protected static String padLeft(String s, String pad, int n) {
+        Log.d(TAG, "padLeft: beginning.........");
         String returnValue;
         returnValue =  String.format("%" + n + "s", s);
-
         if (pad != " ") {
             returnValue = returnValue.replace(" ", pad);
         }
@@ -164,16 +151,16 @@ public class MainActivity extends AppCompatActivity {
         if (returnValue.length() > n ) {
             returnValue = returnValue.substring(returnValue.length() - n);
         }
+        Log.d(TAG, "padLeft: finished");
         return returnValue;
     }
 
     void formatText(){
+        Log.d(TAG, "formatText: beginning......");
        String mlines =  binding.etData.getText().toString()  ;
        String [] splitData;
        String [] fixedsplitdata = new String[constants.lineCount];
-
        splitData = mlines.split("\n") ;
-
        for (int j = 0; j < splitData.length; j ++ ){
            if (splitData [j].length() > constants.lineLength)  {
                splitData [j] = splitData [j].substring(0, constants.lineLength);
@@ -181,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
            else if (splitData [j].length() < constants.lineLength) {
                splitData [j] = padRight (splitData[j], " ", constants.lineLength);
            }
-
        }
 
         for (int j = 0; j < constants.lineCount; j ++ )
@@ -190,34 +176,26 @@ public class MainActivity extends AppCompatActivity {
                 fixedsplitdata[j] = splitData[j];
             else
                 fixedsplitdata[j] = blankline;
-
         }
 
        mlines = join( "\n", fixedsplitdata) ;
        mlines = mlines.toUpperCase();
-
         binding.etData.setText(mlines);
+        Log.d(TAG, "formatText: finished");
    }
 
     private String generateFileContents(){
-
+        Log.d(TAG, "generateFileContents: beginning");
         formatText();  //this function call makes lines uppercase and correct length. changes data in textbox
-        String retval = binding.etData.getText().toString().replace("\n", "\r\n").toUpperCase() ;/*+
-                "\r\n[trick coding version 2.2]\r\n" +
-                "020105010001FF050100" +
-                padLeft(Integer.toHexString(constants.lineCount), "0", 2 ) +
-                padLeft(Integer.toHexString(constants.speed * 10), "0", 2 ) ;
-*/
-
+        String retval = binding.etData.getText().toString().replace("\n", "\r\n").toUpperCase() ;
+        Log.d(TAG, "generateFileContents: finished"); 
         return retval;
-
     }
 
     public void Send(View view) {
-
+        Log.d(TAG, "Send: beginning");
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String fileContent = generateFileContents();
-
         String [] params = {            //params
                 constants.server,                 //0
                 "" + constants.port,              //1
@@ -225,84 +203,60 @@ public class MainActivity extends AppCompatActivity {
                 constants.pass,                   //3
                 filename,               //4
                 fileContent             //5
-
         };
         new SendDataTask().execute(params);
+        Log.d(TAG, "Send: finished");
     }
 
 
     public class SendDataTask extends AsyncTask<String, Void, String[]> {
+        private static final String TAG = "SendDataTask";
 
         @Override
         protected void onPreExecute() {
+            Log.d(TAG, "onPreExecute: begin and end");
         }
 
         @Override
         protected String[] doInBackground(String... params) {
-
-            Log.e("FTP-jp0", "begin doInBackground");
-
-
+            Log.d(TAG, "doInBackground: beginning");
             String server = params[0];
             int port =   Integer.parseInt(params[1]);
             String user = params[2];
             String pass = params[3];
             String fileName = params[4];
             String fileContents = params[5];
-
-
             FTPClient ftpClient = new FTPClient();
 
-
             try {
-
+                Log.d(TAG, "doInBackground:Starting try block.......... ");
                 ftpClient.connect(server, port);
-
                 ftpClient.login(user, pass);
-
-
                 ftpClient.enterLocalPassiveMode();
-
                 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
                 OutputStream outputStream = ftpClient.storeFileStream(fileName);
-
                 byte[] bytesIn = fileContents.getBytes() ;
-
                 outputStream.write(bytesIn, 0, fileContents.length());
-
                 outputStream.close();
-
                 boolean completed = ftpClient.completePendingCommand();
-
-
-                Log.e("FTP-jp0", fileContents);
-                //"end doInBackground " + completed  );
+                Log.d(TAG, "doInBackground: finish try block");
             } catch (IOException ex) {
-
-
-
-                Log.e("FTP-jp0","catch block after location " );
+                Log.e(TAG, "doInBackground: ERROR catched" );
                 System.out.println("Error: " + ex.getMessage());
                 ex.printStackTrace();
-
-
             }
-
-
-
+            Log.d(TAG, "doInBackground: finished");
             return null;
-
         }
 
         @Override
         protected void onPostExecute(String[] passedData) {
+            Log.d(TAG, "onPostExecute: begin and end");
         }
-
     }
 
     public void Get(View view) {
-
+        Log.d(TAG, "Get: beginning........");
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String [] params = {            //params
                 constants.server,                 //0
@@ -312,132 +266,90 @@ public class MainActivity extends AppCompatActivity {
                 filename                //4
         };
         new GetDataTask().execute(params);
-
+        Log.d(TAG, "Get: finished");
     }
 
     public class GetDataTask extends AsyncTask<String, Void, String[]> {
-
+        private static final String TAG = "GetDataTask";
         @Override
         protected void onPreExecute() {
+            Log.d(TAG, "onPreExecute: begin and end");
         }
 
         @Override
         protected String[] doInBackground(String... params) {
-
-            Log.e("FTP-jp0", "begin doInBackground");
-
-
+            Log.d(TAG, "doInBackground: beginning.......");
             String server = params[0];
             int port =   Integer.parseInt(params[1]);
             String user = params[2];
             String pass = params[3];
             String fileName = params[4];
             String fileContents = "";
-
             int bytesRead;
-
             FTPClient ftpClient = new FTPClient();
-
-
             try {
-
+                Log.d(TAG, "doInBackground: Starting try block.......");
                 ftpClient.connect(server, port);
-
                 ftpClient.login(user, pass);
-
-
                 ftpClient.enterLocalPassiveMode();
-
                 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
                 InputStream inputStream  = ftpClient.retrieveFileStream(fileName);
-
-
-
                 byte[] bytesIn = new byte[2048];
-
                 while ((bytesRead = inputStream.read(bytesIn)) > 0) {
-
                     fileContents = fileContents + new String( bytesIn) ;
                 }
-
+                Log.d(TAG, "doInBackground: finish try block");
             } catch (IOException ex) {
-
-
-
-                Log.e("FTP-jp0","catch block after location " );
+                Log.e(TAG, "doInBackground: ERROR catched");
                 System.out.println("Error: " + ex.getMessage());
                 ex.printStackTrace();
-
-
             }
-
-
-
+            Log.d(TAG, "doInBackground: finished");
             return new String[] { fileContents};
-
         }
 
         @Override
         protected void onPostExecute(String[] passedData) {
+            Log.d(TAG, "onPostExecute: beginning........");
             if (passedData == null)  return;
-
             String fileContents = passedData[0];
-
             String textdata = "";
-
             String [] splitData;
             splitData = fileContents.split("\r\n") ;
-
             int speed;
             int i;
-
             for (i=0;
                  //030720 JP-CF check # lines actually read from file as well as expected #
                  i < constants.lineCount && i < splitData.length;
                  i++){
 
-                /*030720 JP-CF this looked for 'junk' at end of old file format
-                if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
-                */
-
-
                 if (! textdata.equals("") ) {
-
                     textdata = textdata + "\n" ;
-
-                    /*030720 JP-CF this changes linelength bassed on filecontents
-                         the way written  uses length of last line
-                    constants.lineLength = splitData[i].length();
-
-                     */
                 }
-
-
                 textdata = textdata + splitData[i];
-
             }
             for (; i<constants.lineCount ; i++)
             {
                 textdata = textdata + blankline;
             }
-
             binding.etData.setText(textdata);
             formatText();
-
+            Log.d(TAG, "onPostExecute: finished");
         }
-
     }
 
     public class GetSignListTask extends AsyncTask<String, Void, String[]> {
 
+        private static final String TAG = "GetSignListTask";
+
         @Override
         protected void onPreExecute() {
+            Log.d(TAG, "onPreExecute: begin and end");
         }
 
         @Override
         protected String[] doInBackground(String... params) {
-            Log.e("FTP-jp0", "begin doInBackground");
+            Log.d(TAG, "doInBackground: beginning.......");
             String server = params[0];
             int port =   Integer.parseInt(params[1]);
             String user = params[2];
@@ -447,90 +359,37 @@ public class MainActivity extends AppCompatActivity {
             int bytesRead;
             FTPClient ftpClient = new FTPClient();
             try {
-
+                Log.d(TAG, "doInBackground: Starting try block........");
                 ftpClient.connect(server, port);
-
                 ftpClient.login(user, pass);
-
-
                 ftpClient.enterLocalPassiveMode();
-
                 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
                 InputStream inputStream  = ftpClient.retrieveFileStream(fileName);
-
-
-
                 byte[] bytesIn = new byte[2048];
-
                 while ((bytesRead = inputStream.read(bytesIn)) > 0) {
-
                     fileContents = fileContents + new String( bytesIn) ;
                 }
-
+                Log.d(TAG, "doInBackground: finish try");
             } catch (IOException ex) {
-                Log.e("FTP-jp0","catch block after location " );
+                Log.e(TAG, "doInBackground: ERROR catched" );
                 System.out.println("Error: " + ex.getMessage());
                 ex.printStackTrace();
             }
+            Log.d(TAG, "doInBackground: finished");
             return new String[] { fileContents};
         }
 
         @Override
         protected void onPostExecute(String[] passedData) {
+            Log.d(TAG, "onPostExecute: beginning");
             if (passedData == null)  return;
             String fileContents = passedData[0];
-            //String textdata = "";
             String [] SignList;
-            //SignList = fileContents.split("\r\n") ;
             SignList = splitLines( fileContents);
-            //String[] items = new String[] { "Chai Latte", "Green Tea", "Black Tea" };
-            //Object[] itemobj = items;
-
             ArrayAdapter<String> adapter = new ArrayAdapter<String> (getApplicationContext(),
                       android.R.layout.simple_spinner_item, SignList);
-
             binding.spinSignList.setAdapter(adapter);
-            /*int speed;
-            int i;
-
-            for (i=0;
-                //030720 JP-CF check # lines actually read from file as well as expected #
-                 i < constants.lineCount && i < splitData.length;
-                 i++){
-                */
-
-            /*030720 JP-CF this looked for 'junk' at end of old file format
-                if (splitData[i].equals("[TRICK CODING VERSION 2.2]" )) break;
-                */
-            /*
-                if (! textdata.equals("") ) {
-
-                    textdata = textdata + "\n" ;
-
-                    */
-                  /*030720 JP-CF this changes linelength bassed on filecontents
-                         the way written  uses length of last line
-                    constants.lineLength = splitData[i].length();
-
-                     *//*
-                }
-
-
-                textdata = textdata + splitData[i];
-
-            }
-            for (; i<constants.lineCount ; i++)
-            {
-                textdata = textdata + blankline;
-            }
-
-            binding.etData.setText(textdata);
-            formatText();
-*/
+            Log.d(TAG, "onPostExecute: finished");
         }
-
     }
-
-
 }
