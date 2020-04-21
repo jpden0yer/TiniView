@@ -43,14 +43,14 @@ public class DisplayFragment extends Fragment {
         // get the rooot view
         final View rootView = binding.getRoot();
         StringBuilder bld = new StringBuilder();
-        for (int j = 0; j < constants.lineLength; j++ )
+        for (int j = 0; j < Constants.lineLength; j++ )
             bld.append( " " );
         blankline = bld.toString();
         String [] params = {            //params
-                constants.server,                 //0
-                "" + constants.port,              //1
-                constants.user,                   //2
-                constants.pass,                   //3
+                Constants.server,                 //0
+                "" + Constants.port,              //1
+                Constants.user,                   //2
+                Constants.pass,                   //3
                 "dat/signlist.txt"                //4
         };
         new GetSignListTask().execute(params);
@@ -143,18 +143,18 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "formatText: beginning......");
         String mlines =  binding.etData.getText().toString()  ;
         String [] splitData;
-        String [] fixedsplitdata = new String[constants.lineCount];
+        String [] fixedsplitdata = new String[Constants.lineCount];
         splitData = mlines.split("\n") ;
         for (int j = 0; j < splitData.length; j ++ ){
-            if (splitData [j].length() > constants.lineLength)  {
-                splitData [j] = splitData [j].substring(0, constants.lineLength);
+            if (splitData [j].length() > Constants.lineLength)  {
+                splitData [j] = splitData [j].substring(0, Constants.lineLength);
             }
-            else if (splitData [j].length() < constants.lineLength) {
-                splitData [j] = padRight (splitData[j], " ", constants.lineLength);
+            else if (splitData [j].length() < Constants.lineLength) {
+                splitData [j] = padRight (splitData[j], " ", Constants.lineLength);
             }
         }
 
-        for (int j = 0; j < constants.lineCount; j ++ )
+        for (int j = 0; j < Constants.lineCount; j ++ )
         {
             if (j < splitData.length)
                 fixedsplitdata[j] = splitData[j];
@@ -181,10 +181,10 @@ public class DisplayFragment extends Fragment {
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String fileContent = generateFileContents();
         String [] params = {            //params
-                constants.server,                 //0
-                "" + constants.port,              //1
-                constants.user,                   //2
-                constants.pass,                   //3
+                Constants.server,                 //0
+                "" + Constants.port,              //1
+                Constants.user,                   //2
+                Constants.pass,                   //3
                 filename,               //4
                 fileContent             //5
         };
@@ -243,10 +243,10 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "Get: beginning........");
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String [] params = {            //params
-                constants.server,                 //0
-                "" + constants.port,              //1
-                constants.user,                   //2
-                constants.pass,                   //3
+                Constants.server,                 //0
+                "" + Constants.port,              //1
+                Constants.user,                   //2
+                Constants.pass,                   //3
                 filename                //4
         };
         new GetDataTask().execute(params);
@@ -305,7 +305,7 @@ public class DisplayFragment extends Fragment {
             int i;
             for (i=0;
                 //030720 JP-CF check # lines actually read from file as well as expected #
-                 i < constants.lineCount && i < splitData.length;
+                 i < Constants.lineCount && i < splitData.length;
                  i++){
 
                 if (! (textDataBld.length() == 0) ) {
@@ -313,7 +313,7 @@ public class DisplayFragment extends Fragment {
                 }
                 textDataBld.append(splitData[i]);
             }
-            for (; i<constants.lineCount ; i++)
+            for (; i< Constants.lineCount ; i++)
             {
                 textDataBld.append(blankline);
             }

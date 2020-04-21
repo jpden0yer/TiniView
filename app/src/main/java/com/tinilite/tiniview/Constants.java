@@ -1,6 +1,6 @@
 package com.tinilite.tiniview;
 
-class constants {
+class Constants {
     /*FTP parameters*/
 
 /*    Server constant*/
