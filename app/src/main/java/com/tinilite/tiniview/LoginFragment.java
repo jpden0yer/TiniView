@@ -12,17 +12,17 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WelcomeFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
-    public WelcomeFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
-//comment added
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_welcome, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 }
