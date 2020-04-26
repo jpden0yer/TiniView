@@ -18,7 +18,10 @@ public class WelcomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-//comment added
+    public static WelcomeFragment newInstance(){
+        return new WelcomeFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
