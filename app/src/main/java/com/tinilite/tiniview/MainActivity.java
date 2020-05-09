@@ -7,16 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+  implements LoginFragment.OnLoginFragmentListener {
     private static final String TAG = "MainActivity";
+
+    private String mServer;
+    private String mUsername;
+    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: beginning.......");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         Log.d(TAG, "onCreate: finished");
     }
@@ -27,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         displayWelcomeFragment();
-
-
         //Toast.makeText(getApplicationContext(),"Now onStart() calls", Toast.LENGTH_LONG).show(); //onStart Called
     }
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public void displayWelcomeFragment() {
         Log.d(TAG, "displayWelcomeFragment: beginning.......");
 
-        //closeLoginFragment();
+        closeLoginFragment();
 
         WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
 
@@ -112,7 +113,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void OnLoginSetCredentials(String server, String Username, String Password) {
+                 mServer = server;
+                 mUsername = Username;
+                 mPassword = Password;
+    }
 
+    @Override
+    public void OnLogingDisplayWelcomeFragment() {
+        displayWelcomeFragment();
+    }
+
+    @Override
+    public String[] OnLoginGetCredentials() {
+        String[] credentials = {mServer, mUsername,mPassword};
+
+        return credentials;
+    }
 
 
 }

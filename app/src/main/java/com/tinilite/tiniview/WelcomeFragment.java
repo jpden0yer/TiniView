@@ -17,7 +17,7 @@ import android.widget.Button;
  * A simple {@link Fragment} subclass.
  */
 public class WelcomeFragment extends Fragment {
-
+    //comment
     private static final String TAG = "WelcomeFragment";
 
     Button mButWelcomeLogin;

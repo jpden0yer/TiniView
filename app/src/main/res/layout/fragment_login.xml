@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <EditText
         android:id="@+id/etServer"
@@ -19,6 +18,8 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="text"
+        android:autofillHints="Server (ip or url)"
+        android:hint="Server (ip or url)"
         app:layout_constraintBottom_toTopOf="@+id/etUsername"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvServer"
@@ -49,6 +50,8 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="text"
+        android:autofillHints="User Name"
+        android:hint="User Name"
         app:layout_constraintBottom_toBottomOf="@+id/etPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvUsername"
@@ -78,6 +81,8 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="text"
+        android:autofillHints="Password"
+        android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPassword"
         app:layout_constraintTop_toTopOf="parent" />
