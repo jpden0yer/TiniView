@@ -31,6 +31,12 @@ public class DisplayFragment extends Fragment {
     private static final String TAG = "DisplayFragment";
     private FragmentDisplayBinding binding;
     private String blankline;
+
+
+    public static DisplayFragment newInstance(){
+        return new DisplayFragment();
+    }
+
     public DisplayFragment() {
         // Required empty public constructor
     }

@@ -1,5 +1,6 @@
 package com.tinilite.tiniview;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -21,6 +22,14 @@ public class WelcomeFragment extends Fragment {
     private static final String TAG = "WelcomeFragment";
 
     Button mButWelcomeLogin;
+
+    OnWelcomeFragmentListener mListener;
+    interface OnWelcomeFragmentListener{
+
+        void OnWelcomeLoggon() ;
+
+    }
+
     public WelcomeFragment() {
         // Required empty public constructor
     }
@@ -40,87 +49,25 @@ public class WelcomeFragment extends Fragment {
         mButWelcomeLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               displayLoginFragment();
+                mListener.OnWelcomeLoggon();
             }
         });
        return view;
     }
 
 
-    public void displayWelcomeFragment() {
-        Log.d(TAG, "displayWelcomeFragment: beginning.......");
+    @Override
+    public void onAttach(Context context ){
+        super.onAttach(context);
+        if (context instanceof LoginFragment.OnLoginFragmentListener){
+            mListener = (WelcomeFragment.OnWelcomeFragmentListener) context;
 
-        //closeLoginFragment();
-
-        WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
-
-        //get FragmentManager and start a transaction
-        //FragmentManager fragmentManager =  getSupportFragmentManager();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        //Add the simple fragment
-        fragmentTransaction.add(R.id.Welcome_fragment_container,
-                welcomeFragment).addToBackStack(null).commit();
-
-        Log.d(TAG, "displayWelcomeFragment: finished");
-    }
-
-    public void closeWelcomeFragment(){
-        Log.d(TAG, "closeWelcomeFragment: beginning........");
-        //get the fragment manager
-        //FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentManager fragmentManager = getFragmentManager() ;
-        //check to see if the fragment is alredy showing
-        WelcomeFragment welcomeFragment = (WelcomeFragment) fragmentManager
-                .findFragmentById(R.id.Welcome_fragment_container);
-        if(welcomeFragment != null){
-            //create and commit the transaction to remove the fragment
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            fragmentTransaction.remove(welcomeFragment).commit();
+        }
+        else {
+            throw new ClassCastException(context.toString()
+                    + "must implement OnLoginFragmentListener");
         }
 
-        Log.d(TAG, "closeWelcomeFragment: finished");
-    }
-
-
-
-    public  void displayLoginFragment() {
-        Log.d(TAG, "displayLoginFragment: beginning.......");
-
-        closeWelcomeFragment();
-
-        LoginFragment loginFragment = LoginFragment.newInstance();
-
-        //get FragmentManager and start a transaction
-        //FragmentManager fragmentManager =  getSupportFragmentManager();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        //Add the simple fragment
-        fragmentTransaction.add(R.id.login_fragment_container,
-                loginFragment).addToBackStack(null).commit();
-
-        Log.d(TAG, "displayLoginFragment: finished");
-    }
-
-    public void closeLoginFragment(){
-        Log.d(TAG, "closeWelcomeFragment: beginning........");
-        //get the fragment manager
-        //FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentManager fragmentManager = getFragmentManager() ;
-        //check to see if the fragment is alredy showing
-        LoginFragment loginFragment = (LoginFragment) fragmentManager
-                .findFragmentById(R.id.login_fragment_container);
-        if(loginFragment != null){
-            //create and commit the transaction to remove the fragment
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            fragmentTransaction.remove(loginFragment).commit();
-        }
-
-        Log.d(TAG, "closeWelcomeFragment: finished");
     }
 
 

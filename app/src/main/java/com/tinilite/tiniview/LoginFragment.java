@@ -25,14 +25,19 @@ public class LoginFragment extends Fragment {
     // in onCreate. intelesense suggest could be local variable. However
     //this is inherantly likely to be used in other fuctions
     private FragmentLoginBinding binding;
-
-
     //050620 create interface to sendLogininfo to MainActivity
+    private String mServer;
+    private String mUsername;
+    private String mPassword;
+    private boolean mLoggedon = false;
+
+
     OnLoginFragmentListener mListener;
     interface OnLoginFragmentListener{
         void OnLoginSetCredentials(String server,
                                       String Username,
-                                      String Password);
+                                      String Password,
+                                      boolean loggedon);
 
          void OnLogingDisplayWelcomeFragment() ;
 
@@ -57,15 +62,25 @@ public class LoginFragment extends Fragment {
 
 
           String [] loginCredentails = mListener.OnLoginGetCredentials();
+          mServer = loginCredentails[0];
           binding.etServer.setText(loginCredentails[0]);
+          mUsername =  loginCredentails[1];
           binding.etUsername.setText(loginCredentails[1]);
+          mPassword = loginCredentails[2];
           binding.etPassword.setText(loginCredentails[2]);
+          if (loginCredentails[3] == "true" )
+              mLoggedon = true;
+          else
+              mLoggedon = false;
+
+
 
           binding.butLoginCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //String holder = "" ;
-                mListener.OnLoginSetCredentials("","","");
+                mListener.OnLoginSetCredentials(mServer,mUsername,mPassword, mLoggedon);
+
                 mListener.OnLogingDisplayWelcomeFragment();
             }
           }
@@ -81,7 +96,9 @@ public class LoginFragment extends Fragment {
                 mListener.OnLoginSetCredentials(
                         server,
                         username,
-                        password);
+                        password,
+                        true
+                );
 
                 mListener.OnLogingDisplayWelcomeFragment();
             }

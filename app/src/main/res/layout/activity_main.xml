@@ -28,4 +28,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_login"/>
 
+    <FrameLayout
+        android:id="@+id/display_fragment_container"
+        android:name="com.tinilite.tiniview.DisplayFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_display"/>
+
 </android.support.constraint.ConstraintLayout>
