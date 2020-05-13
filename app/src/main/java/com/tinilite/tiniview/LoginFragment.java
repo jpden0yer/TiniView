@@ -100,7 +100,7 @@ public class LoginFragment extends Fragment {
                         true
                 );
 
-                mListener.OnLogingDisplayWelcomeFragment();
+                //mListener.OnLogingDisplayWelcomeFragment();
             }
           }
 
