@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null)
+           displayWelcomeFragment();
         Log.d(TAG, "onCreate: finished");
     }
 
@@ -35,11 +37,11 @@ public class MainActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
-
+/*
         if (!loaded) {
             displayWelcomeFragment();
             loaded = true;
-        }
+        }*/
         //Toast.makeText(getApplicationContext(),"Now onStart() calls", Toast.LENGTH_LONG).show(); //onStart Called
     }
 
@@ -198,3 +200,12 @@ public class MainActivity extends AppCompatActivity
         displayLoginFragment();
     }
 }
+
+
+/*
+*02- 051020 04:03P JPCM  review
+*03- 051220 09:27P JP single framelayout and replace fragment
+hefdafadsfadsf
+fdsafsadfasdfgi
+*/
+
