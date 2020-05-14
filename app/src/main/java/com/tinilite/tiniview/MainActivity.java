@@ -4,31 +4,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
-
-import com.tinilite.tiniview.WelcomeFragment.OnWelcomeFragmentListener;
 
 public class MainActivity extends AppCompatActivity
   implements LoginFragment.OnLoginFragmentListener,
         WelcomeFragment.OnWelcomeFragmentListener {
 
     private static final String TAG = "MainActivity";
-
     private String mServer;
     private String mUsername;
     private String mPassword;
     private boolean mLoggedon = false;
 
-    private boolean loaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: beginning.......");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
@@ -39,8 +33,6 @@ public class MainActivity extends AppCompatActivity
             if (savedInstanceState != null) {
                 return;
             }
-
-
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, WelcomeFragment.newInstance()).commit();
@@ -48,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onCreate: finished");
     }
 
-    public void displayFragment(Fragment fragment) {
+    public void showFragment(Fragment fragment) {
         Log.d(TAG, "displayFragment: beginning.......");
 
         //get FragmentManager
@@ -66,26 +58,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void displayDisplayFragment() {
-        Log.d(TAG, "displayDisplayFragment: beginning.......");
-        displayFragment(DisplayFragment.newInstance());
-        Log.d(TAG, "displayDisplayFragment: finished");
-    }
-
-    public void displayWelcomeFragment() {
-        Log.d(TAG, "displayWelcomeFragment: beginning.......");
-        displayFragment(WelcomeFragment.newInstance());
-        Log.d(TAG, "displayWelcomeFragment: finished");
-    }
-
-
-    public  void displayLoginFragment() {
-        Log.d(TAG, "displayLoginFragment: beginning.......");
-        displayFragment(LoginFragment.newInstance());
-        Log.d(TAG, "displayLoginFragment: finished");
-    }
-
-
     @Override
     public void OnLoginSetCredentials(String server, String Username, String Password, boolean loggedon) {
                  mServer = server;
@@ -94,15 +66,12 @@ public class MainActivity extends AppCompatActivity
                  mLoggedon = loggedon;
 
                  if (loggedon)
-                     displayDisplayFragment();
+                     //displayDisplayFragment();
+                     showFragment(DisplayFragment.newInstance());
                  else
-                     displayWelcomeFragment();
+                     showFragment(WelcomeFragment.newInstance());
     }
 
-    @Override
-    public void OnLogingDisplayWelcomeFragment() {
-        displayWelcomeFragment();
-    }
 
     @Override
     public String[] OnLoginGetCredentials() {
@@ -117,10 +86,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void OnWelcomeLoggon() {
-        displayLoginFragment();
+        showFragment(LoginFragment.newInstance());
     }
 }
-
 
 /*
 *02- 051020 04:03P JPCM  review

@@ -4,11 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,24 +27,25 @@ public class LoginFragment extends Fragment {
     private String mPassword;
     private boolean mLoggedon = false;
 
-
-    OnLoginFragmentListener mListener;
-    interface OnLoginFragmentListener{
-        void OnLoginSetCredentials(String server,
-                                      String Username,
-                                      String Password,
-                                      boolean loggedon);
-
-         void OnLogingDisplayWelcomeFragment() ;
-
-         String[] OnLoginGetCredentials();
-    }
-
     public LoginFragment() {
         // Required empty public constructor
     }
 
-    public static LoginFragment newInstance(){
+
+    OnLoginFragmentListener mListener;
+
+    interface OnLoginFragmentListener {
+        void OnLoginSetCredentials(
+                String server,
+                String Username,
+                String Password,
+                boolean loggedon);
+
+        String[] OnLoginGetCredentials();
+    }
+
+
+    public static LoginFragment newInstance() {
         return new LoginFragment();
     }
 
@@ -61,73 +58,56 @@ public class LoginFragment extends Fragment {
         final View rootView = binding.getRoot();
 
 
-          String [] loginCredentails = mListener.OnLoginGetCredentials();
-          mServer = loginCredentails[0];
-          binding.etServer.setText(loginCredentails[0]);
-          mUsername =  loginCredentails[1];
-          binding.etUsername.setText(loginCredentails[1]);
-          mPassword = loginCredentails[2];
-          binding.etPassword.setText(loginCredentails[2]);
-          if (loginCredentails[3] == "true" )
-              mLoggedon = true;
-          else
-              mLoggedon = false;
+        String[] loginCredentails = mListener.OnLoginGetCredentials();
+        mServer = loginCredentails[0];
+        binding.etServer.setText(loginCredentails[0]);
+        mUsername = loginCredentails[1];
+        binding.etUsername.setText(loginCredentails[1]);
+        mPassword = loginCredentails[2];
+        binding.etPassword.setText(loginCredentails[2]);
 
+        mLoggedon = loginCredentails[3].equals("true");
 
+        binding.butLoginCancel.setOnClickListener(new View.OnClickListener() {
+                                                      @Override
+                                                      public void onClick(View view) {
+                                                          //String holder = "" ;
+                                                          mListener.OnLoginSetCredentials(mServer, mUsername, mPassword, mLoggedon);
+                                                      }
+                                                  }
 
-          binding.butLoginCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //String holder = "" ;
-                mListener.OnLoginSetCredentials(mServer,mUsername,mPassword, mLoggedon);
+        );
 
-                mListener.OnLogingDisplayWelcomeFragment();
-            }
-          }
+        binding.butLogin.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    String server = binding.etServer.getText().toString();
+                                                    String username = binding.etUsername.getText().toString();
+                                                    String password = binding.etPassword.getText().toString();
+                                                    mListener.OnLoginSetCredentials(
+                                                            server,
+                                                            username,
+                                                            password,
+                                                            true
+                                                    );
 
-          );
+                                                    //mListener.OnLogingDisplayWelcomeFragment();
+                                                }
+                                            }
 
-          binding.butLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String server = binding.etServer.getText().toString();
-                String username =  binding.etUsername.getText().toString();
-                String password = binding.etPassword.getText().toString();
-                mListener.OnLoginSetCredentials(
-                        server,
-                        username,
-                        password,
-                        true
-                );
-
-                //mListener.OnLogingDisplayWelcomeFragment();
-            }
-          }
-
-          );
-
-
-
+        );
         return rootView;
     }
 
     @Override
-    public void onAttach(Context context ){
+    public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnLoginFragmentListener){
+        if (context instanceof OnLoginFragmentListener) {
             mListener = (OnLoginFragmentListener) context;
-
-        }
-        else {
+        } else {
             throw new ClassCastException(context.toString()
                     + "must implement OnLoginFragmentListener");
         }
-
     }
-
-
-
-
-
 
 }
