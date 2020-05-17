@@ -1,5 +1,6 @@
 package com.tinilite.tiniview;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -32,6 +33,18 @@ public class DisplayFragment extends Fragment {
     private FragmentDisplayBinding binding;
     private String blankline;
 
+    private String mServer;
+    private String mUsername;
+    private String mPassword;
+    private boolean mLoggedon = false;
+
+
+    OnDisplayFragmentListener mListener;
+
+    interface OnDisplayFragmentListener {
+
+        String[] OnDisplayGetCredentials();
+    }
 
     public static DisplayFragment newInstance(){
         return new DisplayFragment();
@@ -49,17 +62,28 @@ public class DisplayFragment extends Fragment {
         //inflate the binding
         binding = FragmentDisplayBinding.inflate(inflater, container, false);
 
-        // get the rooot view
+        // get the root view to return
         final View rootView = binding.getRoot();
+
+        //get the login credentials
+        String[] loginCredentails = mListener.OnDisplayGetCredentials();
+        mServer = loginCredentails[0];
+        mUsername = loginCredentails[1];
+        mPassword = loginCredentails[2];
+        mLoggedon = loginCredentails[3].equals("true");
+
+        //create a blank line in case user types less then 10
         StringBuilder bld = new StringBuilder();
         for (int j = 0; j < Constants.lineLength; j++ )
             bld.append( " " );
         blankline = bld.toString();
+
+        //get the list of signs
         String [] params = {            //params
-                Constants.server,                 //0
+                /*Constants.server*/ mServer,     //0
                 "" + Constants.port,              //1
-                Constants.user,                   //2
-                Constants.pass,                   //3
+                /* Constants.user*/ mUsername,    //2
+                /*Constants.pass*/ mPassword,     //3
                 "dat/signlist.txt"                //4
         };
         new GetSignListTask().execute(params);
@@ -68,7 +92,16 @@ public class DisplayFragment extends Fragment {
         return rootView;
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnDisplayFragmentListener) {
+            mListener = (OnDisplayFragmentListener) context;
+        } else {
+            throw new ClassCastException(context.toString()
+                    + "must implement OnDisplayFragmentListener");
+        }
+    }
     /*send data support functions*/
 
     protected static String[] splitLines(String p_str){
@@ -190,12 +223,12 @@ public class DisplayFragment extends Fragment {
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String fileContent = generateFileContents();
         String [] params = {            //params
-                Constants.server,                 //0
+                /*Constants.server*/ mServer,     //0
                 "" + Constants.port,              //1
-                Constants.user,                   //2
-                Constants.pass,                   //3
-                filename,               //4
-                fileContent             //5
+                /* Constants.user*/ mUsername,    //2
+                /*Constants.pass*/ mPassword,     //3
+                filename,                         //4
+                fileContent                       //5
         };
         new SendDataTask().execute(params);
         Log.d(TAG, "Send: finished");
@@ -252,10 +285,10 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "Get: beginning........");
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String [] params = {            //params
-                Constants.server,                 //0
+                /*Constants.server*/ mServer,     //0
                 "" + Constants.port,              //1
-                Constants.user,                   //2
-                Constants.pass,                   //3
+                /* Constants.user*/ mUsername,    //2
+                /*Constants.pass*/ mPassword,     //3
                 filename                //4
         };
         new GetDataTask().execute(params);

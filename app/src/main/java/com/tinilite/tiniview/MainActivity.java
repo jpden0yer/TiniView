@@ -9,7 +9,8 @@ import android.util.Log;
 
 public class MainActivity extends AppCompatActivity
   implements LoginFragment.OnLoginFragmentListener,
-        WelcomeFragment.OnWelcomeFragmentListener {
+        WelcomeFragment.OnWelcomeFragmentListener,
+        DisplayFragment.OnDisplayFragmentListener {
 
     private static final String TAG = "MainActivity";
     private String mServer;
@@ -87,6 +88,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void OnWelcomeLoggon() {
         showFragment(LoginFragment.newInstance());
+    }
+
+    @Override
+    public String[] OnDisplayGetCredentials() {
+        String[] credentials;
+        if (mLoggedon)
+            credentials = new String[]{mServer, mUsername, mPassword,"true"};
+        else
+            credentials = new String[]{mServer, mUsername,mPassword,"false"};
+
+        return credentials;
     }
 }
 
