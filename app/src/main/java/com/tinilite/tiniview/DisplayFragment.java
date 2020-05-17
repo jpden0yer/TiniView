@@ -71,6 +71,20 @@ public class DisplayFragment extends Fragment {
         // get the root view to return
         final View rootView = binding.getRoot();
 
+        binding.butSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                  Send(view);
+            }
+        });
+
+        binding.butGet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Get(view);
+            }
+        });
+
         mLineLength = getResources().getInteger(R.integer.lineLength)  ;
         mLineCount = getResources().getInteger(R.integer.lineCount) ;
 
