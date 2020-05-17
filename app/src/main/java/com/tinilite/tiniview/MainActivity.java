@@ -1,14 +1,14 @@
 package com.tinilite.tiniview;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity
-  implements LoginFragment.OnLoginFragmentListener,
+        implements LoginFragment.OnLoginFragmentListener,
         WelcomeFragment.OnWelcomeFragmentListener,
         DisplayFragment.OnDisplayFragmentListener {
 
@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity
         if (findViewById(R.id.fragment_container) != null) {
 
             // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
+            // then we don't need to do anything and should return or els
+            //
             // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
@@ -61,19 +62,19 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void OnLoginSetCredentials(String server, String port,  String Username, String Password, boolean loggedon) {
-                 mServer = server;
+    public void OnLoginSetCredentials(String server, String port, String Username, String Password, boolean loggedon) {
+        mServer = server;
 
-                 mUsername = Username;
-                 mPort = port;
-                 mPassword = Password;
-                 mLoggedon = loggedon;
+        mUsername = Username;
+        mPort = port;
+        mPassword = Password;
+        mLoggedon = loggedon;
 
-                 if (loggedon)
-                     //displayDisplayFragment();
-                     showFragment(DisplayFragment.newInstance());
-                 else
-                     showFragment(WelcomeFragment.newInstance());
+        if (loggedon)
+            //displayDisplayFragment();
+            showFragment(DisplayFragment.newInstance());
+        else
+            showFragment(WelcomeFragment.newInstance());
     }
 
 
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity
     public String[] OnLoginGetCredentials() {
         String[] credentials;
         if (mLoggedon)
-            credentials = new String[]{mServer, mPort, mUsername, mPassword,"true"};
+            credentials = new String[]{mServer, mPort, mUsername, mPassword, "true"};
         else
-            credentials = new String[]{mServer, mPort, mUsername,mPassword,"false"};
+            credentials = new String[]{mServer, mPort, mUsername, mPassword, "false"};
 
         return credentials;
     }
@@ -97,9 +98,9 @@ public class MainActivity extends AppCompatActivity
     public String[] OnDisplayGetCredentials() {
         String[] credentials;
         if (mLoggedon)
-            credentials = new String[]{mServer, mPort, mUsername, mPassword,"true"};
+            credentials = new String[]{mServer, mPort, mUsername, mPassword, "true"};
         else
-            credentials = new String[]{mServer, mPort, mUsername,mPassword,"false"};
+            credentials = new String[]{mServer, mPort, mUsername, mPassword, "false"};
 
         return credentials;
     }
