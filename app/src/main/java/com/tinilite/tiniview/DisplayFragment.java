@@ -39,6 +39,11 @@ public class DisplayFragment extends Fragment {
     private String mPassword;
     private boolean mLoggedon = false;
 
+    //these are stored in a local variable to facilitate future changes.
+    //they may not always be a fixed contant.
+    private int mLineLength ;
+    private int mLineCount ;
+
 
     OnDisplayFragmentListener mListener;
 
@@ -66,6 +71,9 @@ public class DisplayFragment extends Fragment {
         // get the root view to return
         final View rootView = binding.getRoot();
 
+        mLineLength = getResources().getInteger(R.integer.lineLength)  ;
+        mLineCount = getResources().getInteger(R.integer.lineCount) ;
+
         //get the login credentials
         String[] loginCredentails = mListener.OnDisplayGetCredentials();
         mServer = loginCredentails[0];
@@ -76,7 +84,7 @@ public class DisplayFragment extends Fragment {
 
         //create a blank line in case user types less then 10
         StringBuilder bld = new StringBuilder();
-        for (int j = 0; j < Constants.lineLength; j++ )
+        for (int j = 0; j < mLineLength; j++ )
             bld.append( " " );
         blankline = bld.toString();
 
@@ -187,18 +195,18 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "formatText: beginning......");
         String mlines =  binding.etData.getText().toString()  ;
         String [] splitData;
-        String [] fixedsplitdata = new String[Constants.lineCount];
+        String [] fixedsplitdata = new String[mLineCount];
         splitData = mlines.split("\n") ;
         for (int j = 0; j < splitData.length; j ++ ){
-            if (splitData [j].length() > Constants.lineLength)  {
-                splitData [j] = splitData [j].substring(0, Constants.lineLength);
+            if (splitData [j].length() > mLineLength)  {
+                splitData [j] = splitData [j].substring(0, mLineLength);
             }
-            else if (splitData [j].length() < Constants.lineLength) {
-                splitData [j] = padRight (splitData[j], " ", Constants.lineLength);
+            else if (splitData [j].length() < mLineLength) {
+                splitData [j] = padRight (splitData[j], " ", mLineLength);
             }
         }
 
-        for (int j = 0; j < Constants.lineCount; j ++ )
+        for (int j = 0; j < mLineCount; j ++ )
         {
             if (j < splitData.length)
                 fixedsplitdata[j] = splitData[j];
@@ -349,7 +357,7 @@ public class DisplayFragment extends Fragment {
             int i;
             for (i=0;
                 //030720 JP-CF check # lines actually read from file as well as expected #
-                 i < Constants.lineCount && i < splitData.length;
+                 i < mLineCount && i < splitData.length;
                  i++){
 
                 if (! (textDataBld.length() == 0) ) {
@@ -357,7 +365,7 @@ public class DisplayFragment extends Fragment {
                 }
                 textDataBld.append(splitData[i]);
             }
-            for (; i< Constants.lineCount ; i++)
+            for (; i< mLineCount ; i++)
             {
                 textDataBld.append(blankline);
             }
