@@ -15,6 +15,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="11dp"
+
         android:autofillHints="Server (ip or url)"
         android:ems="10"
         android:gravity="start|top"
@@ -29,7 +30,10 @@
         android:id="@+id/tvServer"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="46dp"
+
         android:layout_marginRight="46dp"
         android:text="Server"
         android:textSize="14sp"
@@ -62,6 +66,8 @@
         android:id="@+id/tvUsername"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
         android:text="Username"
@@ -92,6 +98,8 @@
         android:id="@+id/tvPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
         android:text="Password"
@@ -100,7 +108,7 @@
         app:layout_constraintEnd_toStartOf="@+id/etPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/etPassword"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/butLogin"
@@ -127,12 +135,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/butLogin"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:layout_constraintVertical_bias="0.509" /><![CDATA[
-
-
-    " />
-
-    ]]>
+        app:layout_constraintVertical_bias="0.509" />
 
     <EditText
         android:id="@+id/etPort"
@@ -145,7 +148,7 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvPort"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
         app:layout_constraintVertical_bias="0.04" />
@@ -154,10 +157,12 @@
         android:id="@+id/tvPort"
         android:layout_width="160dp"
         android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="Port"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/etPort"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPassword"
+        app:layout_constraintTop_toTopOf="@+id/etPort"
         app:layout_constraintVertical_bias="0.02" />
 
 </android.support.constraint.ConstraintLayout>
