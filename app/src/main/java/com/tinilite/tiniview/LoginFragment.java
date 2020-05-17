@@ -23,6 +23,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     //050620 create interface to sendLogininfo to MainActivity
     private String mServer;
+    private String mPort;
     private String mUsername;
     private String mPassword;
     private boolean mLoggedon = false;
@@ -37,6 +38,7 @@ public class LoginFragment extends Fragment {
     interface OnLoginFragmentListener {
         void OnLoginSetCredentials(
                 String server,
+                String port,
                 String Username,
                 String Password,
                 boolean loggedon);
@@ -61,18 +63,21 @@ public class LoginFragment extends Fragment {
         String[] loginCredentails = mListener.OnLoginGetCredentials();
         mServer = loginCredentails[0];
         binding.etServer.setText(loginCredentails[0]);
-        mUsername = loginCredentails[1];
-        binding.etUsername.setText(loginCredentails[1]);
-        mPassword = loginCredentails[2];
-        binding.etPassword.setText(loginCredentails[2]);
+        mPort = loginCredentails[1];
+        binding.etPort.setText(mPort);
 
-        mLoggedon = loginCredentails[3].equals("true");
+        mUsername = loginCredentails[2];
+        binding.etUsername.setText(loginCredentails[2]);
+        mPassword = loginCredentails[3];
+        binding.etPassword.setText(loginCredentails[3]);
+
+        mLoggedon = loginCredentails[4].equals("true");
 
         binding.butLoginCancel.setOnClickListener(new View.OnClickListener() {
                                                       @Override
                                                       public void onClick(View view) {
                                                           //String holder = "" ;
-                                                          mListener.OnLoginSetCredentials(mServer, mUsername, mPassword, mLoggedon);
+                                                          mListener.OnLoginSetCredentials(mServer,mPort, mUsername, mPassword, mLoggedon);
                                                       }
                                                   }
 
@@ -82,10 +87,12 @@ public class LoginFragment extends Fragment {
                                                 @Override
                                                 public void onClick(View view) {
                                                     String server = binding.etServer.getText().toString();
+                                                    String port = binding.etPort.getText().toString();
                                                     String username = binding.etUsername.getText().toString();
                                                     String password = binding.etPassword.getText().toString();
                                                     mListener.OnLoginSetCredentials(
                                                             server,
+                                                            port,
                                                             username,
                                                             password,
                                                             true

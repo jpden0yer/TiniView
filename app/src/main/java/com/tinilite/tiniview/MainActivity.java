@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
     private String mServer;
+    private String mPort;
     private String mUsername;
     private String mPassword;
     private boolean mLoggedon = false;
@@ -60,9 +61,11 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void OnLoginSetCredentials(String server, String Username, String Password, boolean loggedon) {
+    public void OnLoginSetCredentials(String server, String port,  String Username, String Password, boolean loggedon) {
                  mServer = server;
+
                  mUsername = Username;
+                 mPort = port;
                  mPassword = Password;
                  mLoggedon = loggedon;
 
@@ -78,9 +81,9 @@ public class MainActivity extends AppCompatActivity
     public String[] OnLoginGetCredentials() {
         String[] credentials;
         if (mLoggedon)
-            credentials = new String[]{mServer, mUsername, mPassword,"true"};
+            credentials = new String[]{mServer, mPort, mUsername, mPassword,"true"};
         else
-            credentials = new String[]{mServer, mUsername,mPassword,"false"};
+            credentials = new String[]{mServer, mPort, mUsername,mPassword,"false"};
 
         return credentials;
     }
@@ -94,9 +97,9 @@ public class MainActivity extends AppCompatActivity
     public String[] OnDisplayGetCredentials() {
         String[] credentials;
         if (mLoggedon)
-            credentials = new String[]{mServer, mUsername, mPassword,"true"};
+            credentials = new String[]{mServer, mPort, mUsername, mPassword,"true"};
         else
-            credentials = new String[]{mServer, mUsername,mPassword,"false"};
+            credentials = new String[]{mServer, mPort, mUsername,mPassword,"false"};
 
         return credentials;
     }

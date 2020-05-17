@@ -34,6 +34,7 @@ public class DisplayFragment extends Fragment {
     private String blankline;
 
     private String mServer;
+    private String mPort;
     private String mUsername;
     private String mPassword;
     private boolean mLoggedon = false;
@@ -68,9 +69,10 @@ public class DisplayFragment extends Fragment {
         //get the login credentials
         String[] loginCredentails = mListener.OnDisplayGetCredentials();
         mServer = loginCredentails[0];
-        mUsername = loginCredentails[1];
-        mPassword = loginCredentails[2];
-        mLoggedon = loginCredentails[3].equals("true");
+        mPort = loginCredentails[1];
+        mUsername = loginCredentails[2];
+        mPassword = loginCredentails[3];
+        mLoggedon = loginCredentails[4].equals("true");
 
         //create a blank line in case user types less then 10
         StringBuilder bld = new StringBuilder();
@@ -81,7 +83,7 @@ public class DisplayFragment extends Fragment {
         //get the list of signs
         String [] params = {            //params
                 /*Constants.server*/ mServer,     //0
-                "" + Constants.port,              //1
+               /* "" + Constants.port*/ mPort,    //1
                 /* Constants.user*/ mUsername,    //2
                 /*Constants.pass*/ mPassword,     //3
                 "dat/signlist.txt"                //4
@@ -224,7 +226,7 @@ public class DisplayFragment extends Fragment {
         String fileContent = generateFileContents();
         String [] params = {            //params
                 /*Constants.server*/ mServer,     //0
-                "" + Constants.port,              //1
+                /* "" + Constants.port*/ mPort,   //1
                 /* Constants.user*/ mUsername,    //2
                 /*Constants.pass*/ mPassword,     //3
                 filename,                         //4
@@ -286,7 +288,7 @@ public class DisplayFragment extends Fragment {
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String [] params = {            //params
                 /*Constants.server*/ mServer,     //0
-                "" + Constants.port,              //1
+                /*"" + Constants.port*/ mPort,              //1
                 /* Constants.user*/ mUsername,    //2
                 /*Constants.pass*/ mPassword,     //3
                 filename                //4
