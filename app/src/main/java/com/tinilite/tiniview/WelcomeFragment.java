@@ -2,17 +2,11 @@ package com.tinilite.tiniview;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
-
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,14 +14,10 @@ import android.widget.Button;
 public class WelcomeFragment extends Fragment {
     //comment
     private static final String TAG = "WelcomeFragment";
-
     Button mButWelcomeLogin;
-
     OnWelcomeFragmentListener mListener;
     interface OnWelcomeFragmentListener{
-
         void OnWelcomeLoggon() ;
-
     }
 
     public WelcomeFragment() {
@@ -43,9 +33,7 @@ public class WelcomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View view = inflater.inflate(R.layout.fragment_welcome, container, false);
-
         mButWelcomeLogin = view.findViewById(R.id.butwelcomeLogin);
-
         mButWelcomeLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +42,6 @@ public class WelcomeFragment extends Fragment {
         });
        return view;
     }
-
 
     @Override
     public void onAttach(Context context ){
@@ -67,10 +54,5 @@ public class WelcomeFragment extends Fragment {
             throw new ClassCastException(context.toString()
                     + "must implement OnLoginFragmentListener");
         }
-
     }
-
-
-
-
 }

@@ -32,6 +32,8 @@ public class DisplayFragment extends Fragment {
     private String mPort;
     private String mUsername;
     private String mPassword;
+    //5/19/20 generates a warning due to not being used
+    //retain anyway for possible future use
     private boolean mLoggedon = false;
 
     //these are stored in a local variable to facilitate future changes.
@@ -123,6 +125,8 @@ public class DisplayFragment extends Fragment {
     }
     /*send data support functions*/
 
+    //warning because all calls pass delim = "\n"
+    //retain for future flexbility and code reuse
     protected static String join(String delim, String[] arr) {
         Log.d(TAG, "join: beginning......");
         StringBuilder returnValueBld = new StringBuilder();
@@ -136,6 +140,8 @@ public class DisplayFragment extends Fragment {
         return returnValueBld.toString();
     }
 
+    //warning because " " always passed for pad in this program
+    //retain for future flexability and code reuse
     protected static String padRight(String s, String pad, int n) {
         Log.d(TAG, "padRight: beginning.........");
         String returnValue = String.format("%-" + n + "s", s);
@@ -163,14 +169,14 @@ public class DisplayFragment extends Fragment {
         binding.butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Send(view);
+                Send();
             }
         });
 
         binding.butGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Get(view);
+                Get();
             }
         });
         binding.butlogout.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +252,7 @@ public class DisplayFragment extends Fragment {
         return retval;
     }
 
-    public void Send(View view) {
+    public void Send() {
         Log.d(TAG, "Send: beginning");
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String fileContent = generateFileContents();
@@ -262,7 +268,7 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "Send: finished");
     }
 
-    public void Get(View view) {
+    public void Get() {
         Log.d(TAG, "Get: beginning........");
         String filename = "dat/" + binding.spinSignList.getSelectedItem().toString() + ".data";
         String[] params = {            //params
@@ -439,7 +445,7 @@ public class DisplayFragment extends Fragment {
             String fileContents = passedData[0];
             String[] SignList;
             SignList = splitLines(fileContents);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_spinner_item, SignList);
             binding.spinSignList.setAdapter(adapter);
             Log.d(TAG, "onPostExecute: finished");
