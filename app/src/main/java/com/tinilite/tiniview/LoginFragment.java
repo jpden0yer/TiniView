@@ -146,12 +146,23 @@ public class LoginFragment extends Fragment {
         protected String[] doInBackground(String... params) {
             Log.d(TAG, "doInBackground: beginning.......");
             String server = params[0];
-            int port = Integer.parseInt(params[1]);
+            int port;
+
             String user = params[2];
             String pass = params[3];
             String fileName = params[4];
             StringBuilder fileContentBld = new StringBuilder();
             FTPClient ftpClient = new FTPClient();
+
+            try {
+
+                port = Integer.parseInt(params[1]);
+            }
+            catch (Exception ex){
+                return new String[]{server, params[1], user, pass, "false" };
+
+            }
+
             boolean ok;
             try {
                 Log.d(TAG, "doInBackground: Starting try block........");
@@ -174,7 +185,7 @@ public class LoginFragment extends Fragment {
                }
 
                 Log.d(TAG, "doInBackground: finish try");
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 Log.e(TAG, "doInBackground: catched - login fale");
 
                 return new String[]{server, params[1], user, pass, "false" };
