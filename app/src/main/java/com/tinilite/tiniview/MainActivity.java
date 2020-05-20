@@ -60,9 +60,26 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "displayFragment: finished");
     }
 
+    @Override
+    public void OnWelcomeLoggon() {
+        showFragment(LoginFragment.newInstance());
+    }
+
+
 
     @Override
-    public void OnLoginSetCredentials(String server, String port, String Username, String Password, boolean loggedon) {
+    public String[] OnGetCredentials() {
+        String[] credentials;
+        if (mLoggedon)
+            credentials = new String[]{mServer, mPort, mUsername, mPassword, "true"};
+        else
+            credentials = new String[]{mServer, mPort, mUsername, mPassword, "false"};
+
+        return credentials;
+    }
+
+    @Override
+    public void OnSetCredentials(String server, String port, String Username, String Password, boolean loggedon) {
         mServer = server;
 
         mUsername = Username;
@@ -75,34 +92,6 @@ public class MainActivity extends AppCompatActivity
             showFragment(DisplayFragment.newInstance());
         else
             showFragment(WelcomeFragment.newInstance());
-    }
-
-
-    @Override
-    public String[] OnLoginGetCredentials() {
-        String[] credentials;
-        if (mLoggedon)
-            credentials = new String[]{mServer, mPort, mUsername, mPassword, "true"};
-        else
-            credentials = new String[]{mServer, mPort, mUsername, mPassword, "false"};
-
-        return credentials;
-    }
-
-    @Override
-    public void OnWelcomeLoggon() {
-        showFragment(LoginFragment.newInstance());
-    }
-
-    @Override
-    public String[] OnDisplayGetCredentials() {
-        String[] credentials;
-        if (mLoggedon)
-            credentials = new String[]{mServer, mPort, mUsername, mPassword, "true"};
-        else
-            credentials = new String[]{mServer, mPort, mUsername, mPassword, "false"};
-
-        return credentials;
     }
 }
 

@@ -43,14 +43,14 @@ public class LoginFragment extends Fragment {
     OnLoginFragmentListener mListener;
 
     interface OnLoginFragmentListener {
-        void OnLoginSetCredentials(
+        void OnSetCredentials(
                 String server,
                 String port,
                 String Username,
                 String Password,
                 boolean loggedon);
 
-        String[] OnLoginGetCredentials();
+        String[] OnGetCredentials();
     }
 
 
@@ -67,7 +67,7 @@ public class LoginFragment extends Fragment {
         final View rootView = binding.getRoot();
 
 
-        String[] loginCredentails = mListener.OnLoginGetCredentials();
+        String[] loginCredentails = mListener.OnGetCredentials();
         mServer = loginCredentails[0];
         binding.etServer.setText(loginCredentails[0]);
         mPort = loginCredentails[1];
@@ -84,7 +84,7 @@ public class LoginFragment extends Fragment {
                                                       @Override
                                                       public void onClick(View view) {
                                                           //String holder = "" ;
-                                                          mListener.OnLoginSetCredentials(mServer, mPort, mUsername, mPassword, mLoggedon);
+                                                          mListener.OnSetCredentials(mServer, mPort, mUsername, mPassword, mLoggedon);
                                                       }
                                                   }
 
@@ -206,7 +206,7 @@ public class LoginFragment extends Fragment {
             String loggeon = passedData[4];
 
             if (loggeon.equals("true"))
-                mListener.OnLoginSetCredentials(server,port,user,pass, true);
+                mListener.OnSetCredentials(server,port,user,pass, true);
             else
                 Toast.makeText(getContext(),"login failed", Toast.LENGTH_LONG).show();
 

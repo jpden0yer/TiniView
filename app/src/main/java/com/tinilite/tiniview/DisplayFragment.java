@@ -44,7 +44,13 @@ public class DisplayFragment extends Fragment {
 
     interface OnDisplayFragmentListener {
 
-        String[] OnDisplayGetCredentials();
+        String[] OnGetCredentials();
+        void OnSetCredentials(
+                String server,
+                String port,
+                String Username,
+                String Password,
+                boolean loggedon);
     }
 
     public static DisplayFragment newInstance() {
@@ -167,12 +173,18 @@ public class DisplayFragment extends Fragment {
                 Get(view);
             }
         });
+        binding.butlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.OnSetCredentials(mServer,mPort,mUsername,mPassword,false);
+            }
 
+        } ) ;
         mLineLength = getResources().getInteger(R.integer.lineLength);
         mLineCount = getResources().getInteger(R.integer.lineCount);
 
         //get the login credentials
-        String[] loginCredentails = mListener.OnDisplayGetCredentials();
+        String[] loginCredentails = mListener.OnGetCredentials();
         mServer = loginCredentails[0];
         mPort = loginCredentails[1];
         mUsername = loginCredentails[2];
