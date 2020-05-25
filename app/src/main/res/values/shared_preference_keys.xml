@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="saved_server_key">KEY_SERVER</string>
+    <string name="saved_user_key">KEY_user</string>
+    <string name="saved_password_key">KEY_password</string>
+    <string name="saved_port_key">KEY_port</string>
+    <string name="saved_loggedon_key">KEY_loggedon</string>
+</resources>

@@ -1,5 +1,7 @@
 package com.tinilite.tiniview;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +15,9 @@ public class MainActivity extends AppCompatActivity
         DisplayFragment.OnDisplayFragmentListener {
 
     private static final String TAG = "MainActivity";
-    private String mServer;
-    private String mPort;
-    private String mUsername;
-    private String mPassword;
+    private String mServer, mPort, mUsername, mPassword;
     private boolean mLoggedon = false;
-
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,20 @@ public class MainActivity extends AppCompatActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, WelcomeFragment.newInstance()).commit();
+
+
         }
+
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        //get persisted log in values or set to default values
+        mServer = sharedPref.getString(getString(R.string.saved_server_key), "");
+        mPort = sharedPref.getString(getString(R.string.saved_port_key), "");
+        mUsername = sharedPref.getString(getString(R.string.saved_user_key), "");
+        mPassword = sharedPref.getString(getString(R.string.saved_password_key), "");
+        mLoggedon = sharedPref.getBoolean(getString(R.string.saved_loggedon_key), false);
+
+        if (mLoggedon)
+            showFragment(DisplayFragment.newInstance());
         Log.d(TAG, "onCreate: finished");
     }
 
@@ -70,6 +82,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public String[] OnGetCredentials() {
         String[] credentials;
+
+        //get vredentials from shared preferences. default to current values if nothing
+        //persisted. beginning of first run the current values will be ""
+        mServer = sharedPref.getString(getString(R.string.saved_server_key), mServer);
+        mPort = sharedPref.getString(getString(R.string.saved_port_key), mPort);
+        mUsername = sharedPref.getString(getString(R.string.saved_user_key), mUsername);
+        mPassword = sharedPref.getString(getString(R.string.saved_password_key), mPassword);
+        mLoggedon = sharedPref.getBoolean(getString(R.string.saved_loggedon_key), mLoggedon);
+
+
         if (mLoggedon)
             credentials = new String[]{mServer, mPort, mUsername, mPassword, "true"};
         else
@@ -81,11 +103,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void OnSetCredentials(String server, String port, String Username, String Password, boolean loggedon) {
         mServer = server;
-
         mUsername = Username;
         mPort = port;
         mPassword = Password;
         mLoggedon = loggedon;
+        //if not logged in forget password
+        if (mLoggedon == false)
+            mPassword = "";
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.saved_server_key), server);
+        editor.putString(getString(R.string.saved_port_key), port);
+        editor.putString(getString(R.string.saved_user_key), Username);
+        editor.putString(getString(R.string.saved_password_key), mPassword);
+        editor.putBoolean(getString(R.string.saved_loggedon_key), loggedon);
+        editor.commit();
+
 
         if (loggedon)
             //displayDisplayFragment();
@@ -122,6 +155,14 @@ class Constants {
     public static int port = 21;
     public static String user = "Sign1@tiniliteworld.com";
     public static String pass = "Sign1";
+
+             user = "User1@tiniliteworld.com";
+             pwdUser1
+             user = "User1@tiniliteworld.com";
+             pwdUser2
+
+
+
     public static String fileName = "dat/Sign1.data";
 
 */

@@ -28,10 +28,7 @@ public class DisplayFragment extends Fragment {
     private FragmentDisplayBinding binding;
     private String blankline;
 
-    private String mServer;
-    private String mPort;
-    private String mUsername;
-    private String mPassword;
+    private String mServer, mPort, mUsername, mPassword;
     //5/19/20 generates a warning due to not being used
     //retain anyway for possible future use
     private boolean mLoggedon = false;
