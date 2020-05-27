@@ -131,8 +131,7 @@ public class MainActivity extends AppCompatActivity
 /*
 *02- 051020 04:03P JPCM  review
 *03- 051220 09:27P JP single framelayout and replace fragment
-hefdafadsfadsf
-fdsafsadfasdfgi
+*o4 52620 8:53p JP Migrating to androidx
 */
 
 /*051720 this class written out of program
