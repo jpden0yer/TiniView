@@ -1,13 +1,12 @@
 package com.tinilite.tiniview;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnLoginFragmentListener,
@@ -38,8 +37,6 @@ public class MainActivity extends AppCompatActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, WelcomeFragment.newInstance()).commit();
-
-
         }
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
