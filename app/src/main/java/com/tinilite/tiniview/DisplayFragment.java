@@ -1,9 +1,12 @@
 package com.tinilite.tiniview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import androidx.annotation.Keep;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,9 +42,9 @@ public class DisplayFragment extends Fragment {
 
     //these are stored in a local variable to facilitate future changes.
     //they may not always be a fixed contant.
-    private int mLineLength;
-    private int mLineCount;
+    private int mLineLength,mLineCount;
 
+    SignSimulatorTask mSignSimulatorTask = new SignSimulatorTask();
 
     OnDisplayFragmentListener mListener;
 
@@ -119,6 +126,8 @@ public class DisplayFragment extends Fragment {
             throw new ClassCastException(context.toString()
                     + "must implement OnDisplayFragmentListener");
         }
+
+
     }
     /*send data support functions*/
 
@@ -157,6 +166,7 @@ public class DisplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         //inflate the binding
         binding = FragmentDisplayBinding.inflate(inflater, container, false);
 
@@ -183,7 +193,7 @@ public class DisplayFragment extends Fragment {
             }
 
         } ) ;
-        mLineLength = getResources().getInteger(R.integer.lineLength);
+        mLineLength =  getResources().getInteger(R.integer.lineLength);
         mLineCount = getResources().getInteger(R.integer.lineCount);
 
         //get the login credentials
@@ -209,6 +219,10 @@ public class DisplayFragment extends Fragment {
                 "dat/signlist.txt"                //4
         };
         new GetSignListTask().execute(params);
+
+        Data.passFileData(binding.etData.getText().toString());
+        Data.init(2, mLineLength,mLineCount );
+        mSignSimulatorTask.execute(new String[]{""});
 
         // Inflate the layout for this fragment
         return rootView;
@@ -279,6 +293,18 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "Get: finished");
     }
 
+    private void foo()
+    {
+         getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+             /*   String ticks = "" + MainActivity.this.hour + ":" +
+                        MainActivity.this.minute + ":" +
+                        MainActivity.this.second;
+                MainActivity.this.tickView.setText(ticks);*/
+            }
+        });
+    }
     public class SendDataTask extends AsyncTask<String, Void, String[]> {
         private static final String TAG = "SendDataTask";
 
@@ -448,4 +474,45 @@ public class DisplayFragment extends Fragment {
             Log.d(TAG, "onPostExecute: finished");
         }
     }
+
+
+    //
+    public class SignSimulatorTask extends AsyncTask<String, Void, String[]> {
+
+        private static final String TAG = "SignSimulatorTask";
+
+        @Override
+        protected void onPreExecute() {
+            Log.d(TAG, "onPreExecute: begin and end");
+        }
+
+        @Override
+        protected String[] doInBackground(String... params) {
+            Log.d(TAG, "doInBackground: beginning.......");
+
+            while (true) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Data.passFileData(binding.etData.getText().toString());
+                        Data.data_poll();
+                        binding.tvSimulator.setText(Data.getmCurrentLine());
+                    }
+                });
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+
+                }
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String[] passedData) {
+            Log.d(TAG, "onPostExecute: beginning");
+            Log.d(TAG, "onPostExecute: finished");
+        }
+    }
+
 }

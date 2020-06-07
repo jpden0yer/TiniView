@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         //get persisted log in values or set to default values
-        mServer = sharedPref.getString(getString(R.string.saved_server_key), "");
-        mPort = sharedPref.getString(getString(R.string.saved_port_key), "");
+        mServer = sharedPref.getString(  getString(R.string.saved_server_key), "");
+        mPort = sharedPref.getString(    getString(R.string.saved_port_key), "");
         mUsername = sharedPref.getString(getString(R.string.saved_user_key), "");
         mPassword = sharedPref.getString(getString(R.string.saved_password_key), "");
         mLoggedon = sharedPref.getBoolean(getString(R.string.saved_loggedon_key), false);
