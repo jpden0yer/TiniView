@@ -3,12 +3,13 @@ package com.tinilite.tiniview;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.tinilite.tiniview.databinding.FragmentLoginBinding;
 
@@ -201,10 +202,13 @@ public class LoginFragment extends Fragment {
             String pass = passedData[3];
             String loggeon = passedData[4];
 
-            if (loggeon.equals("true"))
-                mListener.OnSetCredentials(server,port,user,pass, true);
+            if (loggeon.equals("true")) {
+                Toast.makeText(getContext(), "Login Succeed........", Toast.LENGTH_SHORT).show();
+                mListener.OnSetCredentials(server, port, user, pass, true);
+
+            }
             else
-                Toast.makeText(getContext(),"login failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Login Failed,XXXXXXXX", Toast.LENGTH_SHORT).show();
 
 
         }

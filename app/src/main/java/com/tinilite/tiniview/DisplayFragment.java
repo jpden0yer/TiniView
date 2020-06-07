@@ -1,17 +1,15 @@
 package com.tinilite.tiniview;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
-import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import androidx.fragment.app.Fragment;
 
 import com.tinilite.tiniview.databinding.FragmentDisplayBinding;
 
@@ -21,11 +19,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import androidx.annotation.Keep;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -220,9 +213,9 @@ public class DisplayFragment extends Fragment {
         };
         new GetSignListTask().execute(params);
 
-        Data.passFileData(binding.etData.getText().toString());
-        Data.init(2, mLineLength,mLineCount );
-        mSignSimulatorTask.execute(new String[]{""});
+        //Data.passFileData(binding.etData.getText().toString());
+        //Data.init(2, mLineLength,mLineCount );
+        //mSignSimulatorTask.execute(new String[]{""});
 
         // Inflate the layout for this fragment
         return rootView;

@@ -1,8 +1,5 @@
 package com.tinilite.tiniview;
 
-
-import android.util.Log;
-
 import static com.tinilite.tiniview.StringUtilities.join;
 import static com.tinilite.tiniview.StringUtilities.padRight;
 import static com.tinilite.tiniview.Timer.tmr_init;
@@ -10,17 +7,11 @@ import static com.tinilite.tiniview.Timer.tmr_poll;
 
 public class Data {
     static String mRawData, mFixedData, blankline,mCurrentLine;
-    static int selected_line = 0;
-    static private int mlineLength;
-    static private int mlineCount;
-
-
+    static private int selected_line = 0, mlineLength, mlineCount;
 
     //these only used on android
     static String mPassedFile = "";
     static boolean mDataChanged = false;
-    static int rawdatasize;
-
 
     //this 2 methods only on android
     public static void passFileData(String pPassedFile){
