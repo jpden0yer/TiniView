@@ -37,7 +37,7 @@ public class DisplayFragment extends Fragment {
     //they may not always be a fixed contant.
     private int mLineLength,mLineCount;
 
-    SignSimulatorTask mSignSimulatorTask = new SignSimulatorTask();
+
 
     OnDisplayFragmentListener mListener;
 
@@ -213,8 +213,30 @@ public class DisplayFragment extends Fragment {
         };
         new GetSignListTask().execute(params);
 
-        //Data.passFileData(binding.etData.getText().toString());
-        //Data.init(2, mLineLength,mLineCount );
+        Data.passFileData(binding.etData.getText().toString());
+        Data.init(2, mLineLength,mLineCount );
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Data.passFileData(binding.etData.getText().toString());
+                            Data.data_poll();
+                            binding.tvSimulator.setText(Data.getmCurrentLine());
+                        }
+                    });
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+            }
+        }).start();
+
+
         //mSignSimulatorTask.execute(new String[]{""});
 
         // Inflate the layout for this fragment
@@ -286,18 +308,6 @@ public class DisplayFragment extends Fragment {
         Log.d(TAG, "Get: finished");
     }
 
-    private void foo()
-    {
-         getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-             /*   String ticks = "" + MainActivity.this.hour + ":" +
-                        MainActivity.this.minute + ":" +
-                        MainActivity.this.second;
-                MainActivity.this.tickView.setText(ticks);*/
-            }
-        });
-    }
     public class SendDataTask extends AsyncTask<String, Void, String[]> {
         private static final String TAG = "SendDataTask";
 
@@ -464,46 +474,6 @@ public class DisplayFragment extends Fragment {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_spinner_item, SignList);
             binding.spinSignList.setAdapter(adapter);
-            Log.d(TAG, "onPostExecute: finished");
-        }
-    }
-
-
-    //
-    public class SignSimulatorTask extends AsyncTask<String, Void, String[]> {
-
-        private static final String TAG = "SignSimulatorTask";
-
-        @Override
-        protected void onPreExecute() {
-            Log.d(TAG, "onPreExecute: begin and end");
-        }
-
-        @Override
-        protected String[] doInBackground(String... params) {
-            Log.d(TAG, "doInBackground: beginning.......");
-
-            while (true) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Data.passFileData(binding.etData.getText().toString());
-                        Data.data_poll();
-                        binding.tvSimulator.setText(Data.getmCurrentLine());
-                    }
-                });
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-
-                }
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(String[] passedData) {
-            Log.d(TAG, "onPostExecute: beginning");
             Log.d(TAG, "onPostExecute: finished");
         }
     }
