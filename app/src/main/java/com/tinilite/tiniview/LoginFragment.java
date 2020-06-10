@@ -142,55 +142,74 @@ public class LoginFragment extends Fragment {
         @Override
         protected String[] doInBackground(String... params) {
             Log.d(TAG, "doInBackground: beginning.......");
+            int failLocation = 0;
             String server = params[0];
+
             int port;
 
             String user = params[2];
             String pass = params[3];
             String fileName = params[4];
             StringBuilder fileContentBld = new StringBuilder();
+
+
+
             FTPClient ftpClient = new FTPClient();
 
             try {
 
+
                 port = Integer.parseInt(params[1]);
+
             }
             catch (Exception ex){
-                return new String[]{server, params[1], user, pass, "false" };
+                Log.d(TAG, "doInBackground: ERROR port not integer");
+                return new String[]{server, params[1], user, pass, "false","port not integer" };
 
             }
 
+            failLocation = 1;
             boolean ok;
             try {
+                failLocation = 2;
                 Log.d(TAG, "doInBackground: Starting try block........");
+                failLocation = 3;
                 ftpClient.connect(server,port );
-
+                failLocation = 4;
                 ok = ftpClient.isConnected();
-               if (ok)
-                 ok =  ftpClient.login(user, pass);
+                failLocation = 5;
+               if (ok) {
+                   ok = ftpClient.login(user, pass);
+                   failLocation = 6;
+               }
                if (ok) {
                    ftpClient.enterLocalPassiveMode();
+                   failLocation = 7;
                    ok = ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+                   failLocation = 8;
                }
 
 
                if (ok) {
+                   failLocation = 9;
                    InputStream inputStream = ftpClient.retrieveFileStream(fileName);
+                   failLocation = 10;
                    if (inputStream == null)
                        ok = false;
 
+                   failLocation = 11;
                }
 
                 Log.d(TAG, "doInBackground: finish try");
             } catch (Exception ex) {
-                Log.e(TAG, "doInBackground: catched - login fale");
+                Log.e(TAG, "doInBackground: catched - login fail location " + failLocation);
 
-                return new String[]{server, params[1], user, pass, "false" };
+                return new String[]{server, params[1], user, pass, "false", "catchloc " + failLocation };
             }
             Log.d(TAG, "doInBackground: finished");
             if (ok)
-               return new String[]{server, params[1], user, pass, "true" };
-            else return new String[]{server, params[1], user, pass, "false" };
+               return new String[]{server, params[1], user, pass, "true", "" };
+            else return new String[]{server, params[1], user, pass, "false", "catchloc " + failLocation };
         }
 
         @Override
@@ -201,6 +220,7 @@ public class LoginFragment extends Fragment {
             String user = passedData[2];
             String pass = passedData[3];
             String loggeon = passedData[4];
+            String failmessage = passedData[5];
 
             if (loggeon.equals("true")) {
                 Toast.makeText(getContext(), "Login Succeed........", Toast.LENGTH_SHORT).show();
@@ -208,7 +228,7 @@ public class LoginFragment extends Fragment {
 
             }
             else
-                Toast.makeText(getContext(), "Login Failed,XXXXXXXX", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Login Failed: " + failmessage , Toast.LENGTH_LONG).show();
 
 
         }
