@@ -144,7 +144,7 @@ public class spi {
        for (int i = 0; i < pSpiCode.length; i ++ ){
             returnval = returnval + Integer.toHexString( pSpiCode[i]);
        }
-
+       returnval = returnval.toUpperCase();
        return returnval;
    }
 

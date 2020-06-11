@@ -225,6 +225,7 @@ public class DisplayFragment extends Fragment {
                             Data.passFileData(binding.etData.getText().toString());
                             Data.data_poll();
                             binding.tvSimulator.setText(Data.getmCurrentLine());
+                            binding.tvSpiSimulator.setText(spi.getSpiCodeASHex());
                         }
                     });
                     try {
