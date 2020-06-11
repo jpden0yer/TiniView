@@ -4,7 +4,7 @@ import static com.tinilite.tiniview.StringUtilities.join;
 import static com.tinilite.tiniview.StringUtilities.padRight;
 import static com.tinilite.tiniview.Timer.tmr_init;
 import static com.tinilite.tiniview.Timer.tmr_poll;
-
+import static com.tinilite.tiniview.spi.displayLine;
 public class Data {
     static String mRawData, mFixedData, blankline,mCurrentLine;
     static private int selected_line = 0, mlineLength, mlineCount;
@@ -37,6 +37,8 @@ public class Data {
     }
     static  void displayLine(String pCurrnetLine){
         mCurrentLine = pCurrnetLine;
+        spi.displayLine(mCurrentLine);
+        //Spi.displayLine(mCurrentLine);
         //on the pi more occurs here.
     }
 

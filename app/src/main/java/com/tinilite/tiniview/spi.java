@@ -2,8 +2,8 @@ package com.tinilite.tiniview;
 
 public class spi {
 
+   static String spiCodeASHex;
 
-    static short BYTES_PER_CODE = 2;
    static short characterMap [] ={
 
                     0x0, 0x0,    //0
@@ -119,5 +119,46 @@ public class spi {
                     0xFF, 0xFF,  //110  n
                     0xFF, 0xFF  //111   o
             };
+
+   public static String  getSpiCodeASHex(){
+       return spiCodeASHex;
+   }
+
+   static byte[] generateSpiCode(String pLine){
+       byte[] returnval = new byte[pLine.length() * 2 ];
+       char [] lineAsChar = pLine.toCharArray();
+       char thischar;
+       for (int i = 0; i <pLine.length(); i++){
+           thischar = lineAsChar[pLine.length() - i - 1];
+
+
+           returnval[2*i] = (byte) characterMap[ 2* thischar] ;
+           returnval[2*i + 1] = (byte) characterMap[ 2* thischar + 1] ;
+
+       }
+       return returnval;
+   }
+
+   static String spicodeToHex (byte[] pSpiCode){
+       String returnval = "";
+       for (int i = 0; i < pSpiCode.length; i ++ ){
+            returnval = returnval + Integer.toHexString( pSpiCode[i]);
+       }
+
+       return returnval;
+   }
+
+   static void displayLine(String pLine){
+       byte[] spicode = generateSpiCode (pLine);
+
+       spiCodeASHex = spicodeToHex(spicode);
+       //make sure latch low
+
+       //transmit over spi
+
+       //drive latch hi
+       //drive latch low
+
+   }
 
 }
