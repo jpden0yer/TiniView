@@ -121,10 +121,16 @@ public class spi {
             };
 
    public static String  getSpiCodeASHex(){
+       //value returned is hex code form of value sent over spi
+       //on the android called to populate a developer textbos
+       //on pi called to display to the value on terminal
        return spiCodeASHex;
    }
 
    static byte[] generateSpiCode(String pLine){
+       //2 steeps; : 1 reverse direction 2 conver to spi code
+       //1 :loop iterates in reverse
+       //2: charactermap stores spi code
        byte[] returnval = new byte[pLine.length() * 2 ];
        char [] lineAsChar = pLine.toCharArray();
        char thischar;
@@ -140,6 +146,9 @@ public class spi {
    }
 
    static String spicodeToHex (byte[] pSpiCode){
+       //for human viewing NOT for send over spi
+       //the values sent over spi bare byte values
+       //this function converts to hex string for human viewing
        String returnval = "";
        for (int i = 0; i < pSpiCode.length; i ++ ){
             returnval = returnval + Integer.toHexString( pSpiCode[i]);
@@ -149,6 +158,7 @@ public class spi {
    }
 
    static void displayLine(String pLine){
+       //this function called by data.java to display a line
        byte[] spicode = generateSpiCode (pLine);
 
        spiCodeASHex = spicodeToHex(spicode);
